@@ -30,4 +30,4 @@ See `docs/VALIDATION.md` for test results and `app/src/main/assets/provenance.js
 
 ## Play Store release preparation
 
-Use `play-store/release-checklist.md` for the listing, privacy-policy, Data safety, content-rating, signing and testing steps. `play-store/privacy-policy.html` is a hosted-policy template: replace the support email and publish it at a public HTTPS URL before submitting the app. `play-store/listing-en.md` and `play-store/listing-el.md` contain the bilingual store copy.
+Use `play-store/release-checklist.md` for the listing, privacy-policy, Data safety, content-rating, signing and testing steps. Read the policy directly in [`PRIVACY_POLICY.md`](PRIVACY_POLICY.md), or use the GitHub Pages version at `https://kdotgr.github.io/Politeia/privacy-policy.html`. `play-store/listing-en.md` and `play-store/listing-el.md` contain the bilingual store copy.
