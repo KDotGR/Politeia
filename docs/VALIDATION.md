@@ -1,11 +1,13 @@
 # Validation — 11 September 2026
 
-- Core: 378 tests passed, zero failures or errors.
+- Android application ID: `com.KDapps.politeia`
+
+- Core: 396 tests passed, zero failures or errors.
 - Historical regression: 348 official election datasets, including both 2023 parliamentary elections, European elections 2024, 332 municipalities and 13 regions. Calculated party/list seats match the stored official results.
-- Boundary and current-law tests: 30 tests covering thresholds, stepped bonus seats, coalition treatment, allocation ties and local rule changes.
-- Android UI: 12 instrumented tests passed on the API 36 emulator, covering bilingual operation, historic calculations, custom entry, saved scenarios, sound controls, activity recreation, landscape layout, party-color picker behavior, remainder handling, coalition simulation and locked step navigation.
-- Debug APK build and Android lint passed; APK signature verified.
-- Installed through Android Studio over Wi-Fi on Samsung SM-S911B. The latest connected run installed the current APK and began the suite on the phone; Samsung's system ended the activity during a recreation test, so the deterministic pass is recorded from the API 36 emulator.
+- Other core tests: 48 tests covering thresholds, stepped bonus seats, coalition treatment, allocation ties and local rule changes, percentage remainders and poll parsing.
+- Android UI: 13 instrumented tests passed on the API 36 emulator at its standard dimensions and at 960 × 1920 pixels, covering bilingual operation, historic calculations, custom entry, saved scenarios, sound controls, activity recreation, landscape layout, party-color picker behavior, remainder handling, coalition simulation and locked step navigation.
+- Debug APK build and Android lint passed (existing dependency/deprecation warnings remain).
+- An earlier development build was installed on Samsung SM-S911B over Wi-Fi. This UI update was validated on the emulator; no physical phone was connected during this run.
 
 Core tests were written before the initial engine implementation and observed failing before implementation. Regression fixtures use Ministry of Interior/SingularLogic results, with provenance recorded alongside the catalog.
 
@@ -22,4 +24,4 @@ Historical agreement does not validate every possible future electoral scenario.
 
 ## Release status
 
-The release configuration now targets Android 16/API 36 and version `1.2.0` (`versionCode 3`). A Google Play upload still requires the API 36 SDK platform, a publisher-owned upload key, a signed release AAB, a public HTTPS privacy-policy URL and completed Play Console declarations. The local SDK currently contains build-tools 36 but not the API 36 platform, so release-bundle generation is blocked until that SDK component is installed.
+The release configuration targets Android 16/API 36 and version `1.2.0` (`versionCode 3`). The API 36 platform is now installed and the updated debug app builds successfully. A Google Play upload still requires a verified signed release AAB, final listing assets, publisher details, a public HTTPS privacy-policy URL and completed Play Console declarations.

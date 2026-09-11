@@ -34,8 +34,15 @@ public class AppFlowTest {
  };
  private static void shell(String command){try(ParcelFileDescriptor fd=InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand(command);InputStream in=new ParcelFileDescriptor.AutoCloseInputStream(fd)){byte[] b=new byte[1024];while(in.read(b)!=-1){}}catch(Exception e){throw new RuntimeException(e);}}
  private static org.hamcrest.Matcher<View> tag(String s){return withTagValue(is((Object)s));}
- private void tap(String s){onView(tag(s)).perform(scrollTo(),click());}
- private void shot(String name)throws Exception{Bitmap b=InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();File dir=new File(InstrumentationRegistry.getInstrumentation().getTargetContext().getExternalFilesDir(null),"screenshots");dir.mkdirs();try(FileOutputStream out=new FileOutputStream(new File(dir,name+".png"))){assertTrue(b.compress(Bitmap.CompressFormat.PNG,100,out));}}
+ private void tap(String s){
+  if(java.util.Arrays.asList("save","open","clear","example").contains(s))onView(tag("scenario-menu")).perform(click());
+  if(java.util.Arrays.asList("sound","language").contains(s))onView(tag("settings")).perform(click());
+  if(java.util.Arrays.asList("save","open","clear","example","sound","language").contains(s))onView(tag(s)).perform(click());else onView(tag(s)).perform(scrollTo(),click());
+ }
+ private void shot(String name)throws Exception{
+  // Surface rotation and dialog-dismiss animations finish after Espresso becomes idle.
+  android.os.SystemClock.sleep(500);
+  Bitmap b=InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();File dir=new File(InstrumentationRegistry.getArguments().getString("additionalTestOutputDir","/sdcard/Android/media/gr.politeia.app/additional_test_output"));dir.mkdirs();try(FileOutputStream out=new FileOutputStream(new File(dir,name+".png"))){assertTrue(b.compress(Bitmap.CompressFormat.PNG,100,out));}}
  @Test public void historicalCalculationAndExplanation() throws Exception {
   shot("01-english-home");tap("next-step");tap("example");tap("calculate");
   onView(tag("seat-total")).check(matches(withText(containsString("300"))));shot("02-parliament-results");
@@ -43,8 +50,8 @@ public class AppFlowTest {
   onView(tag("explanation")).perform(scrollTo()).check(matches(isDisplayed()));shot("03-calculation-trail");
  }
  @Test public void languageSwitch() throws Exception {
-  onView(tag("language")).perform(click());onView(withText("Ελληνικά")).perform(click());shot("04-greek-home");
-  onView(tag("next-step")).perform(scrollTo()).check(matches(withText("Επόμενο: εισαγωγή αποτελεσμάτων")));
+  tap("language");onView(withText("Ελληνικά")).perform(click());shot("04-greek-home");
+  onView(tag("next-step")).perform(scrollTo()).check(matches(withText("Επόμενο →")));
   tap("next-step");
   tap("example");tap("calculate");onView(tag("explanation")).perform(scrollTo()).check(matches(withText("Πώς κατανεμήθηκαν οι έδρες")));shot("05-greek-explanation");
  }
@@ -53,8 +60,8 @@ public class AppFlowTest {
  @Test public void athensRunoffHistoricalResults()throws Exception{tap("type-2");tap("next-step");tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("43"))));shot("07-athens-results");}
  @Test public void customPartyEntryAndBonus()throws Exception{
   tap("type-3");tap("next-step");
-  tap("add");onView(withHint("English name")).perform(typeText("Alpha"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
-  tap("add");onView(withHint("English name")).perform(typeText("Beta"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
+  tap("add");onView(withHint("English name")).perform(replaceText("Alpha"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
+  tap("add");onView(withHint("English name")).perform(replaceText("Beta"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
   onView(withContentDescription("Alpha %")).perform(scrollTo(),replaceText("65"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
   onView(withContentDescription("Beta %")).perform(scrollTo(),replaceText("35"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());tap("calculate");
   onView(tag("seat-total")).check(matches(withText(containsString("100"))));shot("08-custom-results");
@@ -66,8 +73,8 @@ public class AppFlowTest {
   onView(tag("type-0")).perform(scrollTo()).check(matches(isDisplayed()));shot("09-landscape");tap("next-step");tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));
  }
  @Test public void soundToggleAndSavedScenario(){
-  onView(tag("sound")).perform(click()).check(matches(withContentDescription("Sound on")));onView(tag("sound")).perform(click()).check(matches(withContentDescription("Sound off")));
-  tap("next-step");tap("example");tap("save");onView(withHint("Scenario name")).perform(typeText("Regression scenario"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());tap("clear");tap("open");onView(withText("Regression scenario")).perform(click());tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));
+  tap("sound");onView(tag("sound")).check(matches(withContentDescription("Sound on"))).perform(click()).check(matches(withContentDescription("Sound off")));onView(withText("Close")).perform(click());
+  tap("next-step");tap("example");tap("save");onView(withHint("Scenario name")).perform(replaceText("Regression scenario"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());tap("clear");tap("open");onView(withText("Regression scenario")).perform(click());tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));
  }
  @Test public void dropdownRemainderAndGovernment() {
   tap("next-step");tap("clear");tap("add");onView(withText("N.D.")).perform(click());
@@ -80,11 +87,18 @@ public class AppFlowTest {
   tap("government-4");onView(tag("government-total")).perform(scrollTo()).check(matches(withText(containsString("300 / 300"))));
  }
  @Test public void pollsLoadAndRemainAfterRecreation(){tap("polls");onView(withText(containsString("GPO · 2026-09-08"))).perform(click());onView(withText("Use poll results")).perform(click());tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));activity.getActivity().runOnUiThread(()->activity.getActivity().recreate());InstrumentationRegistry.getInstrumentation().waitForIdleSync();onView(tag("seat-total")).check(matches(withText(containsString("300"))));}
- @Test public void lockedStepsAndPartyColorPicker() {
-  onView(tag("example")).check(matches(not(isEnabled())));
-  tap("next-step");onView(tag("dataset")).check(matches(not(isEnabled())));tap("add");
+ @Test public void stepNavigationKeepsInputsAndShowsOnlyCurrentStep(){
+  tap("next-step");tap("add");onView(withText("N.D.")).perform(click());
+  onView(tag("value-2")).perform(scrollTo(),replaceText("30"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+  tap("previous-step");onView(tag("value-2")).check(doesNotExist());
+  tap("next-step");onView(tag("value-2")).perform(scrollTo()).check(matches(withText("30")));
+  androidx.test.espresso.Espresso.pressBack();onView(tag("dataset")).check(matches(isDisplayed()));
+ }
+ @Test public void lockedStepsAndPartyColorPicker() throws Exception {
+  onView(tag("value-2")).check(doesNotExist());
+  tap("next-step");onView(tag("dataset")).check(doesNotExist());tap("add");
   onView(withText("N.D.")).check(matches(isDisplayed())).perform(click());
   onView(tag("value-2")).perform(scrollTo()).check(matches(isDisplayed()));
-  onView(tag("previous-step")).perform(scrollTo()).check(matches(isDisplayed()));
+  onView(tag("previous-step")).perform(scrollTo()).check(matches(isDisplayed()));shot("10-enter-votes");
  }
 }

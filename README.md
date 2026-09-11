@@ -1,6 +1,6 @@
 # Politeia / Πολιτεία
 
-Native Android election seat calculator in Greek and English. Open this folder in Android Studio, select the **app** configuration and your device, then Run. Requires Android 8.0 or later, Android SDK 36, and JDK 17 or newer.
+Native Android election seat calculator in Greek and English. The Android/Google Play package name is `com.KDapps.politeia`. Open this folder in Android Studio, select the **app** configuration and your device, then Run. Requires Android 8.0 or later, Android SDK 36, and JDK 17 or newer.
 
 ## Build and test
 

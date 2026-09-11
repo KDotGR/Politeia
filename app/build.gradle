@@ -8,7 +8,7 @@ android {
  namespace 'gr.politeia.app'
  compileSdk 36
  defaultConfig {
-  applicationId 'gr.politeia.app'
+  applicationId 'com.KDapps.politeia'
   minSdk 26
   targetSdk 36
   versionCode 3

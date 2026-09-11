@@ -13,6 +13,7 @@ This checklist is the handoff for the Google Play Console owner. It assumes the 
 ## Play Console declarations
 
 - App name: **Politeia / Πολιτεία**
+- Package name / application ID: `com.KDapps.politeia`
 - Suggested category: Education or Tools
 - Target audience: general audience; this app is not directed to children
 - App access: no account or login is required
