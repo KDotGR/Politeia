@@ -1,0 +1,44 @@
+plugins { id 'com.android.application' }
+def releaseKeyProps = new Properties()
+def releaseKeyFile = rootProject.file('keystore.properties')
+if (releaseKeyFile.exists()) {
+ releaseKeyFile.withInputStream { releaseKeyProps.load(it) }
+}
+android {
+ namespace 'gr.politeia.app'
+ compileSdk 36
+ defaultConfig {
+  applicationId 'gr.politeia.app'
+  minSdk 26
+  targetSdk 36
+  versionCode 3
+  versionName '1.2.0'
+  testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+ }
+ compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+ signingConfigs {
+  if (releaseKeyProps.containsKey('storeFile')) {
+   release {
+    storeFile file(releaseKeyProps['storeFile'])
+    storePassword releaseKeyProps['storePassword']
+    keyAlias releaseKeyProps['keyAlias']
+    keyPassword releaseKeyProps['keyPassword']
+   }
+  }
+ }
+ buildTypes {
+  release {
+   minifyEnabled false
+   debuggable false
+   if (releaseKeyProps.containsKey('storeFile')) signingConfig signingConfigs.release
+  }
+ }
+ lint { abortOnError true }
+}
+dependencies {
+ implementation project(':core')
+ androidTestImplementation 'androidx.test:runner:1.6.2'
+ androidTestImplementation 'androidx.test:rules:1.6.1'
+ androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+ androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}
