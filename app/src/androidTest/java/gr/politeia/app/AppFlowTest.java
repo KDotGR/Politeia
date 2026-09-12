@@ -21,17 +21,29 @@ import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class AppFlowTest {
+ private boolean legacyDraftRequested;
  @Rule public ActivityTestRule<MainActivity> activity=new ActivityTestRule<MainActivity>(MainActivity.class){
   @Override protected void beforeActivityLaunched(){
    Context c=InstrumentationRegistry.getInstrumentation().getTargetContext();
    c.getSharedPreferences("MainActivity",0).edit().clear().putBoolean("greek",false).putBoolean("sounds",false).commit();
    c.getSharedPreferences("poll-cache",0).edit().clear().putBoolean("auto",false).commit();
+   if(legacyDraftRequested)seedLegacyDraft(c);
    shell("input keyevent KEYCODE_WAKEUP");shell("wm dismiss-keyguard");
   }
   @Override protected void afterActivityLaunched(){
    InstrumentationRegistry.getInstrumentation().runOnMainSync(()->getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON));
   }
  };
+ private void seedLegacyDraft(Context context){
+  try {
+   org.json.JSONArray parties=new ElectionRepository(context).get("may").getJSONArray("parties");
+   org.json.JSONObject values=new org.json.JSONObject();
+   for(int i=0;i<parties.length();i++){org.json.JSONObject party=parties.getJSONObject(i);values.put(party.getString("id"),Long.toString(party.getLong("votes")));}
+   // Deliberately use only v0.1 fields: the legacy law was inferred from the dataset.
+   org.json.JSONObject draft=new org.json.JSONObject().put("editorStep",2).put("resultScreen",false).put("type",0).put("dataset","may").put("percent",false).put("future",false).put("parties",parties).put("values",values).put("custom",new org.json.JSONArray("[\"100\",\"0\",\"20\",\"0\",\"5\",\"1\",\"20\"]"));
+   assertTrue(context.getSharedPreferences("MainActivity",0).edit().putString("draft",draft.toString()).commit());
+  } catch(org.json.JSONException error){throw new AssertionError(error);}
+ }
  private static void shell(String command){try(ParcelFileDescriptor fd=InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand(command);InputStream in=new ParcelFileDescriptor.AutoCloseInputStream(fd)){byte[] b=new byte[1024];while(in.read(b)!=-1){}}catch(Exception e){throw new RuntimeException(e);}}
  private static org.hamcrest.Matcher<View> tag(String s){return withTagValue(is((Object)s));}
  private void tap(String s){
@@ -124,5 +136,16 @@ public class AppFlowTest {
  }
  @Test public void settingsControlsHaveVisibleSpacing(){
   tap("settings");onView(tag("sound")).check((view,error)->{if(error!=null)throw error;View language=view.getRootView().findViewWithTag("language");View sources=view.getRootView().findViewWithTag("sources");int[] a=new int[2],b=new int[2],c=new int[2];language.getLocationOnScreen(a);view.getLocationOnScreen(b);sources.getLocationOnScreen(c);int minGap=Math.round(8*view.getResources().getDisplayMetrics().density);assertTrue("Language and sound controls need at least 8dp spacing",b[1]-a[1]-language.getHeight()>=minGap);assertTrue("Sound and sources controls need at least 8dp spacing",c[1]-b[1]-view.getHeight()>=minGap);});onView(withText("Close")).perform(click());
+ }
+ @Test public void legacyDraftMigratesToVotesAndPreservesHistoricalLaw(){
+  activity.finishActivity();legacyDraftRequested=true;activity.launchActivity(null);
+  page("Enter votes");onView(tag("value-2")).perform(scrollTo()).check(matches(not(withText("0"))));
+  tap("previous-step");onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4406/2016"))));
+  tap("next-step");tap("calculate");onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("146")));
+ }
+ @Test public void selectedHistoricalLawSurvivesPollLoad(){
+  tap("next-step");tap("next-step");tap("law");onView(withText(containsString("4406/2016"))).perform(click());tap("previous-step");
+  tap("polls");onView(withText(containsString("GPO · 2026-09-08"))).perform(click());onView(withText("Use poll results")).perform(click());
+  page("Choose your party list");tap("next-step");onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4406/2016"))));
  }
 }
