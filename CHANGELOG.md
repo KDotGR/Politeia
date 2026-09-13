@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3 — in development
+
+- Enable R8 code optimization and obfuscation plus resource shrinking for release builds.
+- Bundle the generated deobfuscation mapping for Google Play crash reports.
+- Android versionCode 5; development stays on `codex/version-0.3`.
+
 ## Unreleased — percentage-only national elections
 
 - Parliament and European elections now use percentages exclusively, without redundant input-format buttons.

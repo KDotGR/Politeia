@@ -1,2 +1,2 @@
-# Politeia currently ships with code shrinking disabled for predictable election calculations.
-# Add narrowly scoped rules here if shrinking is enabled in a future release.
+# Android component entry points are preserved by the default Android rules.
+# JSON fields are read and written explicitly; no reflection-based model rules are needed.
