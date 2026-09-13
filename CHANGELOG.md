@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — custom-election refinements
+
+- Add a Yes/No bonus switch; bonus settings appear only when enabled.
+- Use one custom party name in both languages and require its candidate count.
+- Cap custom party seats by available candidates; redistribute surplus proportionally among eligible parties with capacity, leaving any unfillable seats vacant.
+- Explain candidate limits, transfers and vacancies in Greek and English.
+
 ## 0.2 — 13 September 2026 (review candidate)
 
 - Split setup into election type, party list, electoral law, votes and seats pages; custom elections skip party-list selection.

@@ -23,8 +23,9 @@ public final class ElectionEngine {
   public boolean local(){return kind==Kind.LOCAL||kind==Kind.LOCAL_2026;}
  }
  public static final class Party {
-  public final String id; public final BigDecimal value; public final int members;
-  public Party(String id,BigDecimal value,int members){this.id=id;this.value=value;this.members=members;}
+  public final String id; public final BigDecimal value; public final int members,candidates;
+  public Party(String id,BigDecimal value,int members){this(id,value,members,Integer.MAX_VALUE);}
+  public Party(String id,BigDecimal value,int members,int candidates){this.id=id;this.value=value;this.members=members;this.candidates=candidates;}
  }
  public static final class Input {
   public final Rule rule; public final List<Party> parties; public boolean percent;
@@ -42,7 +43,7 @@ public final class ElectionEngine {
   Step(String code,int party,Object... args){this.code=code;this.party=party;this.args=Arrays.stream(args).map(Object::toString).toArray(String[]::new);}
  }
  public static final class Result {
-  public final int[] seats; public int bonus;public int winner=-1;
+  public final int[] seats; public int bonus,vacantSeats;public int winner=-1;
   public final List<Step> steps=new ArrayList<>();public final BigDecimal[] percentages;
   Result(int n){seats=new int[n];percentages=new BigDecimal[n];}
  }
@@ -65,7 +66,7 @@ public final class ElectionEngine {
   Rule rule=in.rule;int n=in.parties.size();if(n==0||n>500)throw new IllegalArgumentException("PARTIES");
   BigDecimal total=in.otherVotes;if(total==null||total.signum()<0)throw new IllegalArgumentException("NUMBER");
   checkNumber(total,in.percent);Set<String> ids=new HashSet<>();
-  for(Party p:in.parties){if(p.id==null||p.id.trim().isEmpty()||!ids.add(p.id)||p.members<1||p.members>100)throw new IllegalArgumentException("PARTIES");checkNumber(p.value,in.percent);total=total.add(p.value);}
+  for(Party p:in.parties){if(p.id==null||p.id.trim().isEmpty()||!ids.add(p.id)||p.members<1||p.members>100)throw new IllegalArgumentException("PARTIES");if(rule.kind==Kind.CUSTOM&&p.candidates<0)throw new IllegalArgumentException("CANDIDATES");checkNumber(p.value,in.percent);total=total.add(p.value);}
   if(total.signum()<=0)throw new IllegalArgumentException("ZERO");
   if(in.percent&&total.compareTo(HUNDRED)!=0)throw new IllegalArgumentException("TOTAL");
   Result out=new Result(n);out.steps.add(new Step("VALID",-1,total.toPlainString(),rule.seats));
@@ -131,8 +132,25 @@ public final class ElectionEngine {
    allocate(in,out,eligible,votes,rule.seats-bonus,rule.kind==Kind.EU);
    if(winner>=0)out.seats[winner]+=bonus;
   }
-  if(Arrays.stream(out.seats).sum()!=rule.seats)throw new IllegalStateException("Seat conservation failed");
-  out.steps.add(new Step("CHECK",-1,rule.seats));return out;
+  if(rule.kind==Kind.CUSTOM)applyCandidateLimits(in,out,eligible,votes);
+  if(Arrays.stream(out.seats).sum()+out.vacantSeats!=rule.seats)throw new IllegalStateException("Seat conservation failed");
+  out.steps.add(new Step("CHECK",-1,Arrays.stream(out.seats).sum()));return out;
+ }
+ /** Reallocate only among eligible lists that still have candidates, until capacity is exhausted. */
+ private static void applyCandidateLimits(Input in,Result out,List<Integer> eligible,BigDecimal[] votes){
+  int excess=0;
+  for(int i:eligible){int removed=Math.max(0,out.seats[i]-in.parties.get(i).candidates);if(removed>0){out.seats[i]-=removed;excess+=removed;out.steps.add(new Step("CANDIDATE_CAP",i,removed));}}
+  while(excess>0){
+   List<Integer> available=new ArrayList<>();for(int i:eligible)if(out.seats[i]<in.parties.get(i).candidates)available.add(i);
+   if(available.isEmpty()){out.vacantSeats=excess;out.steps.add(new Step("VACANT_SEATS",-1,excess));return;}
+   Result transfer=new Result(out.seats.length);allocate(in,transfer,available,votes,excess,false);
+   // The same explicit lottery policy applies when a transfer's last seat is tied.
+   for(Step step:transfer.steps)if(step.code.equals("LOTTERY"))out.steps.add(step);
+   int distributed=0;
+   for(int i:available){int gained=Math.min(transfer.seats[i],in.parties.get(i).candidates-out.seats[i]);if(gained>0){out.seats[i]+=gained;distributed+=gained;out.steps.add(new Step("CANDIDATE_TRANSFER",i,gained));}}
+   if(distributed==0)throw new IllegalStateException("Candidate redistribution made no progress");
+   excess-=distributed;
+  }
  }
  private static void checkNumber(BigDecimal n,boolean percent){if(n==null||n.signum()<0||n.precision()>24||n.scale()>8||(!percent&&n.stripTrailingZeros().scale()>0))throw new IllegalArgumentException("NUMBER");}
  private static Map<Integer,BigDecimal> indexMap(BigDecimal[] a){Map<Integer,BigDecimal> m=new HashMap<>();for(int i=0;i<a.length;i++)m.put(i,a[i]);return m;}

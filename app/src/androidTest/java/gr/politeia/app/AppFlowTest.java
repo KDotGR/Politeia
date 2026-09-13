@@ -60,6 +60,15 @@ public class AppFlowTest {
  private void votes(){tap("next-step");tap("next-step");tap("next-step");}
  private void page(String title){onView(tag("page-title")).perform(scrollTo()).check(matches(withText(title)));}
  private void recreate(){activity.getActivity().runOnUiThread(()->activity.getActivity().recreate());InstrumentationRegistry.getInstrumentation().waitForIdleSync();}
+ private void addCustomParty(String name,String candidates){
+  tap("add");onView(tag("party-name")).perform(replaceText(name),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+  onView(tag("candidates")).perform(replaceText(candidates),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
+ }
+ private void customVotes(String alphaCandidates,String betaCandidates){
+  tap("type-3");tap("next-step");tap("next-step");addCustomParty("Alpha",alphaCandidates);addCustomParty("Beta",betaCandidates);
+  onView(withContentDescription("Alpha %")).perform(scrollTo(),replaceText("65"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+  onView(withContentDescription("Beta %")).perform(scrollTo(),replaceText("35"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+ }
  @Test public void historicalCalculationAndExplanation() throws Exception {
   shot("01-english-home");votes();tap("example");tap("calculate");
   onView(tag("seat-total")).check(matches(withText(containsString("300"))));shot("02-parliament-results");
@@ -77,9 +86,8 @@ public class AppFlowTest {
  @Test public void europeanHistoricalResults()throws Exception{tap("type-1");votes();tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("21"))));onView(tag("government-page")).check(doesNotExist());shot("06-european-results");}
  @Test public void athensRunoffHistoricalResults()throws Exception{tap("type-2");tap("next-step");tap("next-step");tap("law");onData(hasToString(containsString("4804/2021"))).perform(click());tap("next-step");tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("43"))));shot("07-athens-results");}
  @Test public void customPartyEntryAndBonus()throws Exception{
-  tap("type-3");tap("next-step");page("Choose the electoral law");onView(tag("dataset")).check(doesNotExist());onView(tag("custom-0")).perform(scrollTo()).check(matches(isDisplayed()));tap("next-step");
-  tap("add");onView(withHint("English name")).perform(replaceText("Alpha"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
-  tap("add");onView(withHint("English name")).perform(replaceText("Beta"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
+  tap("type-3");tap("next-step");page("Choose the electoral law");onView(tag("dataset")).check(doesNotExist());onView(tag("custom-0")).perform(scrollTo()).check(matches(isDisplayed()));tap("custom-bonus");tap("next-step");
+  addCustomParty("Alpha","100");addCustomParty("Beta","100");
   onView(withContentDescription("Alpha %")).perform(scrollTo(),replaceText("65"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
   onView(withContentDescription("Beta %")).perform(scrollTo(),replaceText("35"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());tap("calculate");
   onView(tag("seat-total")).check(matches(withText(containsString("100"))));shot("08-custom-results");
@@ -149,5 +157,36 @@ public class AppFlowTest {
   tap("next-step");tap("next-step");tap("law");onData(hasToString(containsString("4406/2016"))).perform(click());tap("previous-step");
   tap("polls");onView(withText(containsString("GPO · 2026-09-08"))).perform(click());onView(withText("Use poll results")).perform(click());
   page("Choose your party list");tap("next-step");onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4406/2016"))));
+ }
+ @Test public void customBonusToggleRetainsConfigurationAfterRecreation(){
+  tap("type-3");tap("next-step");onView(tag("custom-bonus")).perform(scrollTo()).check(matches(isNotChecked()));
+  for(int i=2;i<=6;i++)onView(tag("custom-"+i)).check(doesNotExist());
+  tap("custom-bonus");onView(tag("custom-2")).perform(scrollTo(),click(),replaceText("25"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+  onView(tag("custom-6")).perform(scrollTo(),click(),replaceText("30"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+  tap("custom-bonus");recreate();onView(tag("custom-bonus")).perform(scrollTo()).check(matches(isNotChecked()));
+  for(int i=2;i<=6;i++)onView(tag("custom-"+i)).check(doesNotExist());
+  tap("custom-bonus");onView(tag("custom-2")).perform(scrollTo()).check(matches(withText("25")));onView(tag("custom-6")).perform(scrollTo()).check(matches(withText("30")));
+ }
+ @Test public void customPartyRequiresCandidatesAndKeepsOneNameAcrossLanguages(){
+  tap("type-3");tap("next-step");tap("next-step");tap("add");
+  onView(withHint("English name")).check(doesNotExist());onView(withHint("Greek name")).check(doesNotExist());
+  onView(tag("party-name")).perform(replaceText("Ελπίδα"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+  onView(tag("candidates")).check(matches(withText("")));onView(withText("Save")).perform(click());onView(tag("candidates")).check(matches(isDisplayed()));
+  onView(tag("candidates")).perform(replaceText("10"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
+  onView(withContentDescription("Ελπίδα %")).perform(scrollTo()).check(matches(isDisplayed()));
+  tap("language");onView(withText("Ελληνικά")).perform(click());recreate();onView(withContentDescription("Ελπίδα %")).perform(scrollTo()).check(matches(isDisplayed()));
+ }
+ @Test public void customCandidateExcessRedistributesToAvailableCandidates(){
+  customVotes("10","100");tap("calculate");onView(tag("seat-total")).perform(scrollTo()).check(matches(withText(containsString("100"))));
+  onView(withText("10")).perform(scrollTo()).check(matches(isDisplayed()));onView(withText("90")).perform(scrollTo()).check(matches(isDisplayed()));
+  onView(tag("vacant-seats")).perform(scrollTo()).check(matches(withText("0 vacant seats")));
+  tap("explanation-page");onView(tag("explanation")).perform(scrollTo()).check(matches(isDisplayed()));
+ }
+ @Test public void customCandidateVacanciesSurviveSaveAndRecreation(){
+  customVotes("10","20");tap("save");onView(withHint("Scenario name")).perform(replaceText("Candidate limits"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
+  tap("clear");tap("open");onView(withText("Candidate limits")).perform(click());recreate();tap("calculate");
+  onView(tag("seat-total")).perform(scrollTo()).check(matches(withText(containsString("30"))));onView(tag("vacant-seats")).perform(scrollTo()).check(matches(withText("70 vacant seats")));
+  onView(withText("10")).perform(scrollTo()).check(matches(isDisplayed()));onView(withText("20")).perform(scrollTo()).check(matches(isDisplayed()));
+  recreate();onView(tag("vacant-seats")).perform(scrollTo()).check(matches(withText("70 vacant seats")));
  }
 }

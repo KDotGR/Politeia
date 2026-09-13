@@ -4,6 +4,9 @@ public final class Explanation {
  public static String format(ElectionEngine.Step s,boolean el,String party){
   String[] a=s.args;String p=party.isEmpty()?"":party+": ";
   switch(s.code){
+   case "CANDIDATE_CAP":return p+(el?"δεν έχει αρκετούς υποψηφίους· ":"has too few candidates; ")+a[0]+(el?" έδρες επιστρέφουν για ανακατανομή.":" seats return for redistribution.");
+   case "CANDIDATE_TRANSFER":return p+(el?"λαμβάνει ":"receives ")+a[0]+(el?" επιπλέον έδρες από ανακατανομή, εντός του αριθμού υποψηφίων του.":" additional seats through redistribution, within its candidate capacity.");
+   case "VACANT_SEATS":return a[0]+(el?" έδρες παραμένουν κενές επειδή οι επιλέξιμοι συνδυασμοί δεν έχουν άλλους διαθέσιμους υποψηφίους.":" seats remain vacant because eligible parties have no remaining candidates.");
    case "REST":return el?"Λοιπά κόμματα: "+a[0]+a[1]+" συνολικά. Κάθε κόμμα θεωρείται κάτω από "+a[2]+"%. Περιλαμβάνονται στο σύνολο ψήφων, αλλά δεν λαμβάνουν έδρες ή μπόνους.":"Rest parties: "+a[0]+a[1]+" combined. Each is assumed below "+a[2]+"%. Included in total votes, but receives no seats or bonus.";
    case "VALID":return el?"Έγκυρα ψηφοδέλτια / ποσοστά: "+a[0]+". Προς κατανομή: "+a[1]+" έδρες. Λευκά και άκυρα εξαιρούνται.":"Valid votes / percentages: "+a[0]+". Allocate "+a[1]+" seats. Blank and invalid ballots are excluded.";
    case "ESTIMATE":return el?"Εκτίμηση από ποσοστά. Τα ποσοστά μετατρέπονται σε μονάδες × 1.000.000. Για ακριβή ακέραια εκλογικά μέτρα χρησιμοποιήστε ψήφους· τα στρογγυλεμένα ποσοστά μπορεί να αλλάξουν την κατανομή.":"Percentage estimate. Shares are represented in units × 1,000,000. Use vote counts for exact integer quotas; rounded percentages can change the allocation.";
@@ -29,6 +32,7 @@ public final class Explanation {
  }
  public static String error(String code,boolean el){
   switch(code==null?"":code){
+   case "CANDIDATES":return el?"Ανοίξτε τα στοιχεία κάθε κόμματος και εισαγάγετε μη αρνητικό ακέραιο αριθμό υποψηφίων.":"Open each party’s details and enter a non-negative whole number of candidates.";
    case "OVER_TOTAL":return el?"Τα ποσοστά δεν μπορούν να υπερβαίνουν το 100%.":"Entered percentages cannot exceed 100%.";
    case "TOTAL":return el?"Το σύνολο των ποσοστών πρέπει να είναι ακριβώς 100%. Συμπληρώστε όλους τους συνδυασμούς.":"Percentages must total exactly 100%. Enter all lists.";
    case "ZERO":return el?"Εισαγάγετε τουλάχιστον μία θετική τιμή.":"Enter at least one positive value.";

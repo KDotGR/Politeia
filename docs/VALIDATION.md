@@ -1,5 +1,14 @@
 # Validation
 
+## Custom-election refinement — 13 September 2026
+
+- Tests written first: bonus-switch UI test failed against the prior app; candidate tests initially failed to compile without the new capacity interface.
+- Ten candidate-limit engine tests pass: bonus caps, repeated redistribution, exhausted capacity, threshold/zero-vote exclusion, zero candidates, explicit ties and vote/percentage consistency.
+- Redistribution uses proportional largest remainders among eligible parties with spare candidates; unfillable seats remain vacant.
+- Five custom UI cases pass: bonus on/off visibility and recreation, single bilingual name and required candidates, bonus calculation, seat redistribution, and saved/recreated vacancies. The bonus-toggle test passed on focused rerun after explicitly focusing fields before editing to avoid a keyboard-dismiss timeout.
+- Debug APK build passed. Only custom-related tests were run for this change; the full election regression suite was deliberately not rerun.
+- Changes are left uncommitted at the user’s request.
+
 ## Version 0.2 — 13 September 2026
 
 Navigation tests were committed first (`1e8024a`), and the isolated-step test was observed failing against the old UI. Additional regressions cover legacy saved drafts and retaining a chosen law when loading a poll. The test fixture also now uses the actual activity preference filename after the application-ID change.
