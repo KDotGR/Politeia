@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — percentage-only national elections
+
+- Parliament and European elections now use percentages exclusively, without redundant input-format buttons.
+- Convert historical results and saved vote-count scenarios to percentages automatically.
+- Keep both percentages and vote counts for local and custom elections.
+
 ## Unreleased — election result sources
 
 - Share the existing poll catalog and refresh settings with European-election scenarios.

@@ -1,5 +1,13 @@
 # Validation
 
+## Percentage-only national elections — 13 September 2026
+
+- Tests written first; the national-input-mode test failed against the existing percentage/vote buttons.
+- Six focused UI tests passed on the API 36 emulator: Parliament/European buttons removed, local/custom buttons retained, switching from local count mode to Parliament, historical Parliament and European imports, legacy count-draft migration, and blank percentage-input recreation.
+- Historical checks retain June 2023 ND 158 seats, European 2024 ND 7/21 seats, and legacy May 2023 ND 146 seats under its saved law.
+- Historical and saved nonnegative numerical inputs are normalized using all parties, with eight decimal places rounded down; the existing percentage-remainder handling accounts for rounding. Percentage estimates may differ from exact counts in marginal ties.
+- Debug APK build and whitespace check passed. No unrelated engine/full-suite tests were run. Changes remain uncommitted on the development branch for the user.
+
 ## Election result sources — 13 September 2026
 
 - Wrote focused UI regressions first; the explicit-source test failed against the old default-enabled Next button.

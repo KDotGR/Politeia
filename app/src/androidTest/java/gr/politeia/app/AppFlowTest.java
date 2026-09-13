@@ -58,7 +58,12 @@ public class AppFlowTest {
   android.os.SystemClock.sleep(500);
   Bitmap b=InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();File dir=new File(InstrumentationRegistry.getArguments().getString("additionalTestOutputDir","/sdcard/Android/media/gr.politeia.app/additional_test_output"));dir.mkdirs();try(FileOutputStream out=new FileOutputStream(new File(dir,name+".png"))){assertTrue(b.compress(Bitmap.CompressFormat.PNG,100,out));}}
  private void firstHistoricalSource(){tap("source-election");tap("dataset");onData(anything()).atPosition(0).perform(click());}
- private void votes(){tap("next-step");firstHistoricalSource();tap("next-step");tap("next-step");tap("clear");tap("percent");}
+ private void votes(){tap("next-step");firstHistoricalSource();tap("next-step");tap("next-step");tap("clear");}
+ private void percentageValue(String id){onView(tag("value-"+id)).perform(scrollTo()).check((view,error)->{
+  if(error!=null)throw error;
+  java.math.BigDecimal value=new java.math.BigDecimal(((android.widget.TextView)view).getText().toString().replace(',','.'));
+  assertTrue("Imported party result must be a percentage",value.signum()>0&&value.compareTo(new java.math.BigDecimal("100"))<0);
+ });}
  private void page(String title){onView(tag("page-title")).perform(scrollTo()).check(matches(withText(title)));}
  private void recreate(){activity.getActivity().runOnUiThread(()->activity.getActivity().recreate());InstrumentationRegistry.getInstrumentation().waitForIdleSync();}
  private void addCustomParty(String name,String candidates){
@@ -151,7 +156,7 @@ public class AppFlowTest {
  }
  @Test public void legacyDraftMigratesToVotesAndPreservesHistoricalLaw(){
   activity.finishActivity();legacyDraftRequested=true;activity.launchActivity(null);
-  page("Enter votes");onView(tag("value-2")).perform(scrollTo()).check(matches(not(withText("0"))));
+  page("Enter votes");percentageValue("2");onView(tag("votes")).check(doesNotExist());
   tap("previous-step");onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4406/2016"))));
   tap("next-step");tap("calculate");onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("146")));
  }
@@ -202,7 +207,7 @@ public class AppFlowTest {
  }
  @Test public void selectingHistoricalElectionLoadsVotesWithoutExtraAction(){
   tap("next-step");tap("source-election");tap("dataset");onView(withText("Parliament · June 2023")).perform(click());tap("next-step");tap("next-step");
-  onView(tag("value-2")).perform(scrollTo()).check(matches(withText("2115322")));tap("calculate");onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("158")));
+  percentageValue("2");tap("calculate");onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("158")));
  }
  @Test public void europeanPollScenarioKeepsEuropeanSeatCount(){
   tap("type-1");tap("next-step");tap("source-poll");tap("polls");onView(withText(containsString("GPO · 2026-09-08"))).perform(click());
@@ -225,7 +230,20 @@ public class AppFlowTest {
  }
  @Test public void europeanHistoricalSelectionDirectlyLoadsVotes(){
   tap("type-1");tap("next-step");tap("source-election");tap("dataset");onView(withText("European Parliament · 2024")).perform(click());
-  tap("next-step");tap("next-step");onView(tag("value-2")).perform(scrollTo()).check(matches(withText("1125510")));tap("calculate");
+  tap("next-step");tap("next-step");percentageValue("2");tap("calculate");
   onView(tag("seat-total")).perform(scrollTo()).check(matches(withText("21 seats allocated")));onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("7")));
+ }
+ @Test public void parliamentAndEuropeanVotesArePercentageOnly(){
+  votes();onView(tag("percent")).check(doesNotExist());onView(tag("votes")).check(doesNotExist());
+  tap("previous-step");tap("previous-step");tap("previous-step");tap("type-1");votes();
+  onView(tag("percent")).check(doesNotExist());onView(tag("votes")).check(doesNotExist());
+ }
+ @Test public void localAndCustomKeepModesAndSwitchingToParliamentResetsUnits(){
+  tap("type-2");tap("next-step");firstHistoricalSource();tap("next-step");tap("next-step");
+  onView(tag("percent")).perform(scrollTo()).check(matches(isDisplayed()));onView(tag("votes")).perform(scrollTo()).check(matches(isDisplayed()));
+  tap("previous-step");tap("previous-step");tap("previous-step");tap("type-0");tap("next-step");firstHistoricalSource();tap("next-step");tap("next-step");
+  percentageValue("2");onView(tag("votes")).check(doesNotExist());
+  tap("previous-step");tap("previous-step");tap("previous-step");tap("type-3");tap("next-step");tap("next-step");
+  onView(tag("percent")).perform(scrollTo()).check(matches(isDisplayed()));onView(tag("votes")).perform(scrollTo()).check(matches(isDisplayed()));
  }
 }
