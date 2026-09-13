@@ -21,11 +21,13 @@ import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class AppFlowTest {
+ // Activity.getPreferences uses the fully qualified local class name when applicationId differs.
+ private static final String ACTIVITY_PREFERENCES="gr.politeia.app.MainActivity";
  private boolean legacyDraftRequested;
  @Rule public ActivityTestRule<MainActivity> activity=new ActivityTestRule<MainActivity>(MainActivity.class){
   @Override protected void beforeActivityLaunched(){
    Context c=InstrumentationRegistry.getInstrumentation().getTargetContext();
-   c.getSharedPreferences("MainActivity",0).edit().clear().putBoolean("greek",false).putBoolean("sounds",false).commit();
+   c.getSharedPreferences(ACTIVITY_PREFERENCES,0).edit().clear().putBoolean("greek",false).putBoolean("sounds",false).commit();
    c.getSharedPreferences("poll-cache",0).edit().clear().putBoolean("auto",false).commit();
    if(legacyDraftRequested)seedLegacyDraft(c);
    shell("input keyevent KEYCODE_WAKEUP");shell("wm dismiss-keyguard");
@@ -41,15 +43,15 @@ public class AppFlowTest {
    for(int i=0;i<parties.length();i++){org.json.JSONObject party=parties.getJSONObject(i);values.put(party.getString("id"),Long.toString(party.getLong("votes")));}
    // Deliberately use only v0.1 fields: the legacy law was inferred from the dataset.
    org.json.JSONObject draft=new org.json.JSONObject().put("editorStep",2).put("resultScreen",false).put("type",0).put("dataset","may").put("percent",false).put("future",false).put("parties",parties).put("values",values).put("custom",new org.json.JSONArray("[\"100\",\"0\",\"20\",\"0\",\"5\",\"1\",\"20\"]"));
-   assertTrue(context.getSharedPreferences("MainActivity",0).edit().putString("draft",draft.toString()).commit());
+   assertTrue(context.getSharedPreferences(ACTIVITY_PREFERENCES,0).edit().putString("draft",draft.toString()).commit());
   } catch(org.json.JSONException error){throw new AssertionError(error);}
  }
  private static void shell(String command){try(ParcelFileDescriptor fd=InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand(command);InputStream in=new ParcelFileDescriptor.AutoCloseInputStream(fd)){byte[] b=new byte[1024];while(in.read(b)!=-1){}}catch(Exception e){throw new RuntimeException(e);}}
  private static org.hamcrest.Matcher<View> tag(String s){return withTagValue(is((Object)s));}
  private void tap(String s){
-  if(java.util.Arrays.asList("save","open","clear","example").contains(s))onView(tag("scenario-menu")).perform(click());
+  if(java.util.Arrays.asList("save","open","clear","example").contains(s))onView(tag("scenario-menu")).perform(scrollTo(),click());
   if(java.util.Arrays.asList("sound","language").contains(s))onView(tag("settings")).perform(click());
-  if(java.util.Arrays.asList("save","open","clear","example","sound","language","settings","scenario-menu").contains(s))onView(tag(s)).perform(click());else onView(tag(s)).perform(scrollTo(),click());
+  if(java.util.Arrays.asList("settings").contains(s))onView(tag(s)).perform(click());else onView(tag(s)).perform(scrollTo(),click());
  }
  private void shot(String name)throws Exception{
   // Surface rotation and dialog-dismiss animations finish after Espresso becomes idle.
@@ -63,17 +65,17 @@ public class AppFlowTest {
   onView(tag("seat-total")).check(matches(withText(containsString("300"))));shot("02-parliament-results");
   onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("158")));
   onView(tag("explanation")).check(doesNotExist());tap("explanation-page");
-  onView(tag("explanation")).perform(scrollTo()).check(matches(isDisplayed()));shot("03-calculation-trail");tap("detail-back");onView(tag("seat-total")).check(matches(isDisplayed()));
+  onView(tag("explanation")).perform(scrollTo()).check(matches(isDisplayed()));shot("03-calculation-trail");tap("detail-back");onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));
  }
  @Test public void languageSwitch() throws Exception {
   tap("language");onView(withText("Ελληνικά")).perform(click());shot("04-greek-home");
   onView(tag("next-step")).perform(scrollTo()).check(matches(withText("Επόμενο →")));
   votes();
-  tap("example");tap("calculate");tap("explanation-page");onView(tag("explanation")).perform(scrollTo()).check(matches(withText("Πώς κατανεμήθηκαν οι έδρες")));shot("05-greek-explanation");
+  tap("example");tap("calculate");tap("explanation-page");onView(tag("page-title")).perform(scrollTo()).check(matches(withText("Πώς κατανεμήθηκαν οι έδρες")));shot("05-greek-explanation");
  }
  @Test public void invalidInputShowsError(){votes();tap("clear");tap("calculate");onView(tag("error")).check(matches(isDisplayed()));}
  @Test public void europeanHistoricalResults()throws Exception{tap("type-1");votes();tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("21"))));onView(tag("government-page")).check(doesNotExist());shot("06-european-results");}
- @Test public void athensRunoffHistoricalResults()throws Exception{tap("type-2");tap("next-step");tap("next-step");tap("law");onView(withText(containsString("4804/2021"))).perform(click());tap("next-step");tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("43"))));shot("07-athens-results");}
+ @Test public void athensRunoffHistoricalResults()throws Exception{tap("type-2");tap("next-step");tap("next-step");tap("law");onData(hasToString(containsString("4804/2021"))).perform(click());tap("next-step");tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("43"))));shot("07-athens-results");}
  @Test public void customPartyEntryAndBonus()throws Exception{
   tap("type-3");tap("next-step");page("Choose the electoral law");onView(tag("dataset")).check(doesNotExist());onView(tag("custom-0")).perform(scrollTo()).check(matches(isDisplayed()));tap("next-step");
   tap("add");onView(withHint("English name")).perform(replaceText("Alpha"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());
@@ -86,7 +88,7 @@ public class AppFlowTest {
  @Test public void valuesSurviveRecreation(){votes();tap("example");recreate();tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));}
  @Test public void landscapeLayout()throws Exception{
   activity.getActivity().runOnUiThread(()->activity.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE));InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-  onView(tag("type-0")).perform(scrollTo()).check(matches(isDisplayed()));shot("09-landscape");votes();tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));tap("government-page");page("Government coalition simulator");tap("detail-back");onView(tag("seat-total")).check(matches(isDisplayed()));
+  onView(tag("type-0")).perform(scrollTo()).check(matches(isDisplayed()));shot("09-landscape");votes();tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));tap("government-page");page("Government coalition simulator");tap("detail-back");onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));
  }
  @Test public void soundToggleAndSavedScenario(){
   tap("sound");onView(tag("sound")).check(matches(withContentDescription("Sound on"))).perform(click()).check(matches(withContentDescription("Sound off")));onView(withText("Close")).perform(click());
@@ -128,11 +130,11 @@ public class AppFlowTest {
   tap("next-step");tap("dataset");onView(withText("Parliament · May 2023")).perform(click());tap("next-step");onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4654/2020"))));
  }
  @Test public void selectedLawSurvivesDatasetChangeAndRecreation(){
-  tap("next-step");tap("next-step");tap("law");onView(withText(containsString("4406/2016"))).perform(click());tap("previous-step");tap("dataset");onView(withText("Parliament · June 2023")).perform(click());tap("next-step");recreate();onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4406/2016"))));
+  tap("next-step");tap("next-step");tap("law");onData(hasToString(containsString("4406/2016"))).perform(click());tap("previous-step");tap("dataset");onView(withText("Parliament · June 2023")).perform(click());tap("next-step");recreate();onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4406/2016"))));
   tap("next-step");tap("example");tap("calculate");onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("129")));
  }
  @Test public void coalitionStateAndBackReturnToResults(){
-  votes();tap("example");tap("calculate");tap("government-page");tap("government-2");recreate();onView(tag("government-total")).perform(scrollTo()).check(matches(withText(containsString("158 / 300"))));androidx.test.espresso.Espresso.pressBack();onView(tag("seat-total")).check(matches(isDisplayed()));tap("government-page");onView(tag("government-2")).perform(scrollTo()).check(matches(isChecked()));tap("detail-back");tap("explanation-page");androidx.test.espresso.Espresso.pressBack();onView(tag("seat-total")).check(matches(isDisplayed()));
+  votes();tap("example");tap("calculate");tap("government-page");tap("government-2");recreate();onView(tag("government-total")).perform(scrollTo()).check(matches(withText(containsString("158 / 300"))));androidx.test.espresso.Espresso.pressBack();onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));tap("government-page");onView(tag("government-2")).perform(scrollTo()).check(matches(isChecked()));tap("detail-back");tap("explanation-page");androidx.test.espresso.Espresso.pressBack();onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));
  }
  @Test public void settingsControlsHaveVisibleSpacing(){
   tap("settings");onView(tag("sound")).check((view,error)->{if(error!=null)throw error;View language=view.getRootView().findViewWithTag("language");View sources=view.getRootView().findViewWithTag("sources");int[] a=new int[2],b=new int[2],c=new int[2];language.getLocationOnScreen(a);view.getLocationOnScreen(b);sources.getLocationOnScreen(c);int minGap=Math.round(8*view.getResources().getDisplayMetrics().density);assertTrue("Language and sound controls need at least 8dp spacing",b[1]-a[1]-language.getHeight()>=minGap);assertTrue("Sound and sources controls need at least 8dp spacing",c[1]-b[1]-view.getHeight()>=minGap);});onView(withText("Close")).perform(click());
@@ -144,7 +146,7 @@ public class AppFlowTest {
   tap("next-step");tap("calculate");onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("146")));
  }
  @Test public void selectedHistoricalLawSurvivesPollLoad(){
-  tap("next-step");tap("next-step");tap("law");onView(withText(containsString("4406/2016"))).perform(click());tap("previous-step");
+  tap("next-step");tap("next-step");tap("law");onData(hasToString(containsString("4406/2016"))).perform(click());tap("previous-step");
   tap("polls");onView(withText(containsString("GPO · 2026-09-08"))).perform(click());onView(withText("Use poll results")).perform(click());
   page("Choose your party list");tap("next-step");onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4406/2016"))));
  }

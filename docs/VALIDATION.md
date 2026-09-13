@@ -1,4 +1,16 @@
-# Validation — 11 September 2026
+# Validation
+
+## Version 0.2 — 13 September 2026
+
+Navigation tests were committed first (`1e8024a`), and the isolated-step test was observed failing against the old UI. Additional regressions cover legacy saved drafts and retaining a chosen law when loading a poll. The test fixture also now uses the actual activity preference filename after the application-ID change.
+
+- Core: 396 tests, zero failures/errors; calculation engine unchanged.
+- UI: all 20 cases passed at 320dp width (840 × 1920, density 420) with 130% text, including a focused rerun of the landscape case after making its assertion scroll-aware.
+- Fixed native selection-dialog dim layers swallowing quick Next/Previous taps; all four affected navigation regressions passed at standard size.
+- Final standard-size run: all 20 UI tests passed at 960 × 1920, density 420, 100% text. Android lint and debug APK build passed. Existing AGP/API compatibility and deprecation warnings remain.
+- Independent test, implementation and review agents contributed. No physical-device installation or Play upload is part of this validation.
+
+## Previous baseline — 11 September 2026
 
 - Android application ID: `com.KDapps.politeia`
 
@@ -24,4 +36,4 @@ Historical agreement does not validate every possible future electoral scenario.
 
 ## Release status
 
-The release configuration targets Android 16/API 36 and version `1.2.0` (`versionCode 3`). The API 36 platform is now installed and the updated debug app builds successfully. A Google Play upload still requires a verified signed release AAB, final listing assets, publisher details, a public HTTPS privacy-policy URL and completed Play Console declarations.
+The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` and `versionName 0.2`, following the publisher’s requested version numbering. The debug APK is validated; this change has not been merged to main, tagged as a final release, or uploaded to Google Play. A new signed release AAB and Play Console review remain separate release steps.

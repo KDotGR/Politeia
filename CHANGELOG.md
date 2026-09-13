@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2 — 13 September 2026 (review candidate)
+
+- Split setup into election type, party list, electoral law, votes and seats pages; custom elections skip party-list selection.
+- Choose electoral laws independently of historical party lists. Poll selection loads editable percentages.
+- Open coalition simulation, poll assumptions and calculation explanations on dedicated pages, returning to seats.
+- Space settings controls and preserve scenarios and navigation across recreation.
+- Prevent closing selection dialogs from blocking quick navigation taps.
+- Android versionCode 4; development remains on `codex/version-0.2` pending approval to merge.
+
 ## Unreleased — 1.2.0 preparation
 
 ### UI refinement — 11 September 2026
