@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — election result sources
+
+- Share the existing poll catalog and refresh settings with European-election scenarios.
+- Require an explicit previous-election or poll choice, followed by a selection, before advancing from step 2.
+- Load poll percentages immediately without a confirmation popup; load historical vote counts automatically for editing in step 4.
+- Use one name in both languages when adding a new party. Preserve existing translated party names.
+
 ## Unreleased — custom-election refinements
 
 - Add a Yes/No bonus switch; bonus settings appear only when enabled.

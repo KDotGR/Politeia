@@ -1,5 +1,14 @@
 # Validation
 
+## Election result sources — 13 September 2026
+
+- Wrote focused UI regressions first; the explicit-source test failed against the old default-enabled Next button.
+- Eight relevant UI cases passed on the API 36 emulator, in a six-case run followed by two final cases: explicit source selection and recreation, direct Parliament historical import (158 ND seats), European poll scenario (21 seats), one-language new-party naming, poll detail recreation, independent historical law preservation, blank edited vote restoration, and direct European historical import (7 ND seats).
+- European scenarios reuse the same national poll catalog, cache and refresh schedule. The UI identifies their national-poll origin.
+- Review caught and fixed eager legacy-source inference that could discard a draft containing an unfinished vote input.
+- Debug APK rebuilt successfully; diff whitespace check passed. No unrelated engine tests or full UI suite were run because the allocation engine and poll parser are unchanged.
+- Changes remain uncommitted on `codex/version-0.2` for the user to commit and push. No main-branch push or Play upload was performed.
+
 ## Custom-election refinement — 13 September 2026
 
 - Tests written first: bonus-switch UI test failed against the prior app; candidate tests initially failed to compile without the new capacity interface.
