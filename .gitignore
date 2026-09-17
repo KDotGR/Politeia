@@ -14,3 +14,11 @@ keystore.properties
 !.env.example
 *.p12
 *.pem
+
+# Private local setup and generated/archived development material
+.local/
+artifacts/
+research/raw/
+research/legacy-tools/
+__pycache__/
+*.pyc

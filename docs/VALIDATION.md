@@ -1,5 +1,13 @@
 # Validation
 
+## Project relocation — 17 September 2026
+
+- Repository is now rooted at `/Volumes/files/Politeia`; Git object integrity and tracked checkout were verified after transfer.
+- Preserved release AAB and matching mapping were checked; all 690 local-election cache JSON files and the Parliament/European source catalogs are present.
+- Updated importer paths are relative to its repository root; Python syntax validation passed without rerunning data downloads.
+- A fresh `:app:bundleRelease` succeeded from the new location using the copied private signing key. R8 bundle verification and JAR signature verification passed.
+- Private signing files, research caches and artifacts are ignored by Git. Historical release files are retained separately from regenerated build outputs.
+
 ## Percentage-only national elections — 13 September 2026
 
 - Tests written first; the national-input-mode test failed against the existing percentage/vote buttons.

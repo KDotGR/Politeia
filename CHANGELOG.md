@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — project organization
+
+- Consolidate the local project at `/Volumes/files/Politeia` with separate research, release artifacts and private signing folders.
+- Make the official-data importer resolve paths relative to the repository root.
+- Document the folder layout and exclude private files and generated archives from Git.
+
 ## 0.3 — in development
 
 - Enable R8 code optimization and obfuscation plus resource shrinking for release builds.

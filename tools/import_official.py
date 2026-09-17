@@ -1,9 +1,11 @@
 """Build offline, dated ballot catalogs and regression fixtures from Ministry archives.
-Run from the working directory containing work/*-catalog-*.json (see provenance.json).
+Run from any directory; cached source data is in research/raw (see provenance.json).
 The app never executes remote JavaScript and does not require network access.
 """
 import json,pathlib,urllib.request,concurrent.futures,unicodedata
-W=pathlib.Path('work'); OUT=pathlib.Path('outputs/Politeia/app/src/main/assets'); OUT.mkdir(parents=True,exist_ok=True)
+ROOT=pathlib.Path(__file__).resolve().parents[1]
+W=ROOT/'research'/'raw'; OUT=ROOT/'app'/'src'/'main'/'assets'; OUT.mkdir(parents=True,exist_ok=True)
+(W/'local-data').mkdir(parents=True,exist_ok=True)
 def read(p):return json.loads(p.read_text())
 def latin(s):
  table={'Α':'A','Β':'V','Γ':'G','Δ':'D','Ε':'E','Ζ':'Z','Η':'I','Θ':'Th','Ι':'I','Κ':'K','Λ':'L','Μ':'M','Ν':'N','Ξ':'X','Ο':'O','Π':'P','Ρ':'R','Σ':'S','Τ':'T','Υ':'Y','Φ':'F','Χ':'Ch','Ψ':'Ps','Ω':'O','ς':'s'}
@@ -49,7 +51,7 @@ for typ,dct in [('municipality',localcatalog['en']['municipalities']),('region',
   sources.append(url)
 (OUT/'elections.json').write_text(json.dumps(sets,ensure_ascii=False,separators=(',',':')))
 (OUT/'provenance.json').write_text(json.dumps(dict(retrieved='2026-09-10',publisher='Hellenic Ministry of Interior / SingularLogic',catalogMeaning='Complete published ballot lists for the dated election; not a live registry or a declaration of eligibility for a future election.',localEnglish='Transliteration of official Greek ballot names; place names from official English catalog.',sources=sources),ensure_ascii=False,indent=2))
-fixtures=pathlib.Path('outputs/Politeia/core/src/test/resources');fixtures.mkdir(parents=True,exist_ok=True)
+fixtures=ROOT/'core'/'src'/'test'/'resources';fixtures.mkdir(parents=True,exist_ok=True)
 with (fixtures/'historical.tsv').open('w') as f:
  for e in sets:
   f.write('\t'.join([e['id'],e['rule'],str(e['seats']),str(e['valid']),str(next((i for i,p in enumerate(e['parties']) if p['id']==e.get('winner')), '')),','.join(str(p['votes']) for p in e['parties']),','.join(str(p['seats']) for p in e['parties'])])+'\n')

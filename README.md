@@ -2,6 +2,10 @@
 
 Native Android election seat calculator in Greek and English. The Android/Google Play package name is `com.KDapps.politeia`. Open this folder in Android Studio, select the **app** configuration and your device, then Run. Requires Android 8.0 or later, Android SDK 36, and JDK 17 or newer.
 
+## Project location and layout
+
+The local project lives at `/Volumes/files/Politeia`. Open this root folder in Android Studio or GitHub Desktop. See [Project structure](docs/PROJECT_STRUCTURE.md) for the purpose of each folder, signing setup, research inputs and release archives.
+
 ## Build and test
 
 ```sh
@@ -12,7 +16,7 @@ Native Android election seat calculator in Greek and English. The Android/Google
 
 The second command requires a connected Android device or emulator. APK output: `app/build/outputs/apk/debug/app-debug.apk`. The supplied APK is a development build, signed with a debug certificate.
 
-The Play Console upload artifact is the release Android App Bundle at `app/build/outputs/bundle/release/app-release.aab`. The bundle must be signed with your own upload key in Android Studio before upload. The app is configured for Android 16/API 36, which is required for new Google Play apps and updates from 31 August 2026.
+The Play Console upload artifact is the release Android App Bundle at `app/build/outputs/bundle/release/app-release.aab`. Release builds use the upload key configured in the ignored `keystore.properties`; the local key is kept in `.local/signing/`. Verify the R8 mapping with `python3 scripts/verify_release_bundle.py`. The app is configured for Android 16/API 36, which is required for new Google Play apps and updates from 31 August 2026.
 
 ## Features and scope
 
@@ -26,7 +30,7 @@ Parliament calculations give national party entitlements. Exceptional constituen
 
 `core` is a platform-independent Java calculation engine with exact decimal/integer arithmetic. `app` contains the native Android UI, bilingual presentation, offline catalog and local persistence. Neither the app nor the engine requires network access. Source links open in the user's browser.
 
-See `docs/VALIDATION.md` for test results and `app/src/main/assets/provenance.json` for all historical data URLs. The development import helper under `tools` requires the original research cache in `work`; it is not needed to build or run the app. The checked-in JSON and TSV contain the complete build and test inputs.
+See `docs/VALIDATION.md` for test results and `app/src/main/assets/provenance.json` for all historical data URLs. The development import helper under `tools` requires the optional research cache in `research/raw`; it is not needed to build or run the app. The checked-in JSON and TSV contain the complete build and test inputs.
 
 ## Play Store release preparation
 
