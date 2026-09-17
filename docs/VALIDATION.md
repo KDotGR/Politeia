@@ -1,8 +1,15 @@
 # Validation
 
+## Public repository review — 17 September 2026
+
+- Fetched origin and inspected all reachable local/ref history (107 file blobs): no matches for the local signing passwords or keystore, private-key blocks, GitHub token patterns, or AWS access-key IDs.
+- No signing files or password files found in tracked filename history; signing examples contain placeholders only.
+- Added a tracked-file check and GitHub Actions workflow. Six focused tests cover normal documentation, private paths, embedded tokens, signing passwords and example templates.
+- These checks cover known secrets and selected patterns, not every possible credential format or independently uploaded GitHub assets. No application code or behavior changed.
+
 ## Project relocation — 17 September 2026
 
-- Repository is now rooted at `/Volumes/files/Politeia`; Git object integrity and tracked checkout were verified after transfer.
+- Repository is now rooted at the project root; Git object integrity and tracked checkout were verified after transfer.
 - Preserved release AAB and matching mapping were checked; all 690 local-election cache JSON files and the Parliament/European source catalogs are present.
 - Updated importer paths are relative to its repository root; Python syntax validation passed without rerunning data downloads.
 - A fresh `:app:bundleRelease` succeeded from the new location using the copied private signing key. R8 bundle verification and JAR signature verification passed.

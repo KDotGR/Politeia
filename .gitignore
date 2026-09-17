@@ -22,3 +22,13 @@ research/raw/
 research/legacy-tools/
 __pycache__/
 *.pyc
+
+# Credentials and signing exports
+*.pfx
+*.key
+*password*.txt
+*credentials*.json
+*credentials*.txt
+*service-account*.json
+*service_account*.json
+.ssh/

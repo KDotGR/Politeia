@@ -1,8 +1,13 @@
 # Changelog
 
+## Unreleased — public documentation and repository checks
+
+- Replace maintainer-oriented README content with English and Greek user instructions and a contributor quick start.
+- Add tracked-file credential checks, CI coverage and broader ignores for private credential exports.
+
 ## Unreleased — project organization
 
-- Consolidate the local project at `/Volumes/files/Politeia` with separate research, release artifacts and private signing folders.
+- Consolidate the local project at the project root with separate research, release artifacts and private signing folders.
 - Make the official-data importer resolve paths relative to the repository root.
 - Document the folder layout and exclude private files and generated archives from Git.
 

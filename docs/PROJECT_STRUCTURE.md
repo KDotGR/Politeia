@@ -1,6 +1,6 @@
 # Project layout
 
-Open `/Volumes/files/Politeia` in Android Studio and GitHub Desktop. This directory is the Gradle and Git repository root.
+Open the cloned project folder in Android Studio and GitHub Desktop. This directory is the Gradle and Git repository root.
 
 | Directory | Purpose |
 | --- | --- |
