@@ -93,3 +93,9 @@ The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` 
 - Existing historical-flow tests now import through the source step instead of the removed menu action.
 - Comparisons use the selected election snapshot (latest stored same-type election for polls), not present-day parliamentary membership. Omitted former seat holders remain visible; custom elections have no comparison.
 - R8 release bundle build, embedded mapping verification, credential check and diff whitespace check passed.
+
+### Version 0.4 — results image sharing
+
+- Two focused instrumentation tests passed: Share launches an image/png chooser with a readable content URI, stream attachment and temporary read grant; the exported image includes the full results beyond the viewport. A synthetic 30,000-pixel-tall result verifies bounded image dimensions/memory without cropping.
+- Navigation controls are outside the captured results container. PNG compression runs in a background thread; sharing uses a non-exported FileProvider restricted to the shared-results cache folder and requires no storage permission.
+- R8 release build, embedded mapping verification, credential check and whitespace check passed.

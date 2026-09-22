@@ -2,6 +2,8 @@
 
 ## 0.4 — in development
 
+- Share a full results image (chart, party totals and seat changes) instead of plain text through the Android share sheet.
+
 - Remove the redundant historical-results action from More.
 - Show color-coded seat changes against the selected election, including parties losing all seats and poll-to-official party matching.
 
