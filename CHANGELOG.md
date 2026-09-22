@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4 — in development
+
+- Remove the numbered step header; retain page titles and Previous/Next navigation.
+- Display national historical percentages with at most two decimals while retaining precise values for editing and seat calculations.
+- Keep R8 optimization, obfuscation and resource shrinking enabled; versionCode 6.
+
 ## Unreleased — public documentation and repository checks
 
 - Replace maintainer-oriented README content with English and Greek user instructions and a contributor quick start.

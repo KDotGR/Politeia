@@ -84,9 +84,7 @@ public final class MainActivity extends Activity {
   root.setOnApplyWindowInsetsListener((v,in)->{v.setPadding(dp(16),in.getSystemWindowInsetTop(),dp(16),in.getSystemWindowInsetBottom());return in;});setContentView(root);
   LinearLayout header=row();TextView logo=text(t("politeia","πολιτεία"),26,INK,true);logo.setGravity(Gravity.CENTER_VERTICAL);header.addView(logo,new LinearLayout.LayoutParams(0,dp(60),1));
   Button options=button("⚙","settings",this::settings,false);options.setContentDescription(t("Settings and information","Ρυθμίσεις και πληροφορίες"));header.addView(options,new LinearLayout.LayoutParams(dp(48),dp(48)));root.addView(header);
-  LinearLayout progress=row();String[] labels={t("Election","Εκλογές"),t("Party list","Κόμματα"),t("Law","Νόμος"),t("Votes","Ψήφοι"),t("Seats","Έδρες"),t("Details","Λεπτομέρειες")};
-  int current=resultScreen?(resultPage==5?5:6):editorStep;
-  for(int i=1;i<=(current==6?6:5);i++){if(type==3&&i==2)continue;boolean active=i==current;TextView label=text(""+i,12,active?TEAL:MUTED,active);label.setContentDescription(i+". "+labels[i-1]);label.setGravity(Gravity.CENTER);label.setPadding(dp(4),dp(6),dp(4),dp(6));label.setAlpha(active?1f:0.48f);label.setBackground(bg(active?0xFFDDF3EE:BG,10));label.setTag("step-label-"+i);weighted(progress,label);}root.addView(progress);
+  // Page titles and Previous/Next buttons provide navigation without a numbered header.
   scroll=new ScrollView(this);scroll.setTag("step-scroll");scroll.setFillViewport(true);body=column();body.setPadding(0,dp(12),0,dp(24));scroll.addView(body);root.addView(scroll,new LinearLayout.LayoutParams(-1,0,1));
   if(resultScreen&&result!=null){if(resultPage==5)renderResults();else renderDetail();}else renderEditor();building=false;updateTotal();root.requestApplyInsets();
   final int restoreY=pendingScrollY;pendingScrollY=0;scroll.post(()->scroll.scrollTo(0,Math.max(0,restoreY)));
@@ -183,7 +181,22 @@ public final class MainActivity extends Activity {
  private void rerenderPreservingScroll(){pendingScrollY=scroll==null?0:scroll.getScrollY();render();}
  private void partyRow(LinearLayout parent,JSONObject p){LinearLayout r=row();r.setPadding(0,dp(6),0,dp(6));View dot=new View(this);dot.setBackground(bg(Color.parseColor(p.optString("color","#64748B")),5));r.addView(dot,new LinearLayout.LayoutParams(dp(5),dp(34)));
   TextView name=text(name(p),14,INK,true);name.setPadding(dp(10),dp(8),dp(8),dp(8));name.setMinHeight(dp(48));name.setGravity(Gravity.CENTER_VERTICAL);name.setOnClickListener(v->editParty(p));name.setContentDescription(name(p)+t(". Party details",". Στοιχεία συνδυασμού"));r.addView(name,new LinearLayout.LayoutParams(0,-2,1));
-  EditText field=field(values.get(p.optString("id")),name(p)+(percent?" %":t(" votes"," ψήφοι")),"value-"+p.optString("id"));field.setGravity(Gravity.END|Gravity.CENTER_VERTICAL);field.setSelectAllOnFocus(true);r.addView(field,new LinearLayout.LayoutParams(dp(getResources().getConfiguration().screenWidthDp<380?80:104),dp(52)));watch(field,s->{values.put(p.optString("id"),s);if(activePoll!=null)pollEdited=true;government.clear();tieOrder.clear();updateTotal();});if(dropdownMode()){Button remove=button("×","remove-"+p.optString("id"),()->{selectedParties.remove(p.optString("id"));values.put(p.optString("id"),"0");government.clear();tieOrder.clear();if(activePoll!=null)pollEdited=true;rerenderPreservingScroll();},false);remove.setContentDescription(t("Remove ","Αφαίρεση ")+name(p));r.addView(remove,new LinearLayout.LayoutParams(dp(48),dp(48)));}parent.addView(r);View line=new View(this);line.setBackgroundColor(LINE);parent.addView(line,new LinearLayout.LayoutParams(-1,dp(1)));}
+  String partyId=p.optString("id");boolean compactPercentage=type<=1&&percent;
+  EditText field=field(compactPercentage?displayPercentage(values.get(partyId)):values.get(partyId),name(p)+(percent?" %":t(" votes"," ψήφοι")),"value-"+partyId);
+  // Keep exact imported shares in the model; rounding is only for the inactive field.
+  boolean[] formatting={false};
+  if(compactPercentage)field.setOnFocusChangeListener((v,focused)->{
+   formatting[0]=true;
+   field.setText(focused?values.get(partyId):displayPercentage(values.get(partyId)));
+   if(focused)field.selectAll();
+   formatting[0]=false;
+  });field.setGravity(Gravity.END|Gravity.CENTER_VERTICAL);field.setSelectAllOnFocus(true);r.addView(field,new LinearLayout.LayoutParams(dp(getResources().getConfiguration().screenWidthDp<380?80:104),dp(52)));watch(field,s->{if(formatting[0])return;values.put(p.optString("id"),s);if(activePoll!=null)pollEdited=true;government.clear();tieOrder.clear();updateTotal();});if(dropdownMode()){Button remove=button("×","remove-"+p.optString("id"),()->{selectedParties.remove(p.optString("id"));values.put(p.optString("id"),"0");government.clear();tieOrder.clear();if(activePoll!=null)pollEdited=true;rerenderPreservingScroll();},false);remove.setContentDescription(t("Remove ","Αφαίρεση ")+name(p));r.addView(remove,new LinearLayout.LayoutParams(dp(48),dp(48)));}parent.addView(r);View line=new View(this);line.setBackgroundColor(LINE);parent.addView(line,new LinearLayout.LayoutParams(-1,dp(1)));}
+ // Preserve unfinished/invalid input so the existing validation can explain it.
+ private String displayPercentage(String value){
+  if(value==null||value.trim().isEmpty())return value;
+  try{return number(value).setScale(2,RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();}
+  catch(IllegalArgumentException invalid){return value;}
+ }
  private EditText field(String value,String hint,String tag){EditText e=new EditText(this);e.setSingleLine(true);e.setText(value==null?"":value);e.setHint(hint);e.setContentDescription(hint);e.setTag(tag);e.setTextSize(15);e.setTextColor(INK);e.setHintTextColor(MUTED);e.setInputType(android.text.InputType.TYPE_CLASS_NUMBER|android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);e.setPadding(dp(12),dp(8),dp(12),dp(8));GradientDrawable d=bg(BG,10);d.setStroke(dp(1),LINE);e.setBackground(d);e.setMinHeight(dp(52));return e;}
  private void watch(EditText e,java.util.function.Consumer<String> c){e.addTextChangedListener(new TextWatcher(){public void beforeTextChanged(CharSequence s,int st,int count,int after){}public void onTextChanged(CharSequence s,int start,int before,int count){if(!building)c.accept(s.toString());}public void afterTextChanged(Editable s){}});}
  private BigDecimal number(String s){try{return new BigDecimal(s.trim().replace(',','.'));}catch(Exception e){throw new IllegalArgumentException("NUMBER");}}

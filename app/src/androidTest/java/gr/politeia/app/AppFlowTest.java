@@ -228,6 +228,17 @@ public class AppFlowTest {
   onView(tag("next-step")).perform(scrollTo()).check(matches(isEnabled()));tap("next-step");tap("next-step");
   onView(tag("value-2")).perform(scrollTo()).check(matches(withText("")));
  }
+ // Historical percentages must fit the field without sacrificing calculation precision.
+ @Test public void europeanHistoricalPercentagesAreReadableAndEditable(){
+  onView(tag("step-label-1")).check(doesNotExist());
+  tap("type-1");tap("next-step");firstHistoricalSource();tap("next-step");tap("next-step");
+  onView(tag("value-2")).perform(scrollTo()).check(matches(withText("28.31")));
+  onView(tag("value-2")).perform(click()).check(matches(withText("28.30698329")));
+  onView(tag("value-2")).perform(replaceText("30.5"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+  tap("previous-step");tap("next-step");
+  onView(tag("value-2")).perform(scrollTo()).check(matches(withText("30.5")));
+  onView(tag("step-label-4")).check(doesNotExist());
+ }
  @Test public void europeanHistoricalSelectionDirectlyLoadsVotes(){
   tap("type-1");tap("next-step");tap("source-election");tap("dataset");onView(withText("European Parliament · 2024")).perform(click());
   tap("next-step");tap("next-step");percentageValue("2");tap("calculate");

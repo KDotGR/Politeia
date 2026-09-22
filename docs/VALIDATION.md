@@ -78,3 +78,11 @@ Historical agreement does not validate every possible future electoral scenario.
 ## Release status
 
 The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` and `versionName 0.2`, following the publisher’s requested version numbering. The debug APK is validated; this change has not been merged to main, tagged as a final release, or uploaded to Google Play. A new signed release AAB and Play Console review remain separate release steps.
+
+
+## Version 0.4 — 23 September 2026
+
+- Focused emulator checks passed: readable/editable European historical percentages, European historical 21-seat allocation (ND: 7), June parliamentary historical allocation (ND: 158), and preservation of a blank edited value across recreation. The new display test also checks removal of the numbered header and persistence of an edited percentage across navigation.
+- The percentage display uses two decimals when inactive and restores the existing eight-decimal model value on focus. Formatting does not overwrite the model or change allocation arithmetic.
+- `:app:bundleRelease` passed with R8 and resource shrinking enabled; the bundle mapping verification and tracked-file credential check passed. Version 0.4 / code 6.
+- Initial emulator installation hit a stale release/debug signing conflict; the subsequent test installation succeeded. One new test expectation was corrected to match the existing truncation rule before passing on rerun.
