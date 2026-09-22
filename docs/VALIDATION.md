@@ -86,3 +86,10 @@ The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` 
 - The percentage display uses two decimals when inactive and restores the existing eight-decimal model value on focus. Formatting does not overwrite the model or change allocation arithmetic.
 - `:app:bundleRelease` passed with R8 and resource shrinking enabled; the bundle mapping verification and tracked-file credential check passed. Version 0.4 / code 6.
 - Initial emulator installation hit a stale release/debug signing conflict; the subsequent test installation succeeded. One new test expectation was corrected to match the existing truncation rule before passing on rerun.
+
+### Version 0.4 — historical seat comparison
+
+- Four focused emulator tests passed: removed More-menu action with unchanged/gained/lost seats and Greek labels, European poll-to-historical ID matching, historical parliamentary results/explanation, and custom-party allocation.
+- Existing historical-flow tests now import through the source step instead of the removed menu action.
+- Comparisons use the selected election snapshot (latest stored same-type election for polls), not present-day parliamentary membership. Omitted former seat holders remain visible; custom elections have no comparison.
+- R8 release bundle build, embedded mapping verification, credential check and diff whitespace check passed.

@@ -105,7 +105,6 @@ public final class MainActivity extends Activity {
   ScrollView menuScroll=new ScrollView(this);menuScroll.addView(box);AlertDialog dialog=new AlertDialog.Builder(this).setTitle(t("Scenario","Σενάριο")).setView(menuScroll).setNegativeButton(t("Close","Κλείσιμο"),null).create();
   box.addView(button(t("Save scenario","Αποθήκευση σεναρίου"),"save",()->{dialog.dismiss();saveScenario();},false));
   box.addView(button(t("Open scenario","Άνοιγμα σεναρίου"),"open",()->{dialog.dismiss();openScenario();},false));
-  if(type!=3)box.addView(button(t("Load historical results","Ιστορικά αποτελέσματα"),"example",()->{dialog.dismiss();loadHistoricalResults(datasetId);editorStep=4;render();},false));
   box.addView(button(t("Clear values","Μηδενισμός"),"clear",()->{dialog.dismiss();selectedParties.clear();government.clear();if(activePoll!=null)pollEdited=true;for(String id:values.keySet())values.put(id,"0");winner="";tieOrder.clear();transfers.clear();render();},false));spaceControls(box);dialog.show();
  }
  private void renderEditor(){
@@ -246,13 +245,45 @@ public final class MainActivity extends Activity {
  private void calculate(){try{result=ElectionEngine.calculate(input());government.clear();resultScreen=true;resultPage=5;pendingScrollY=0;save();((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(root.getWindowToken(),0);sound(true);animateStep=true;stepDirection=1;render();}catch(ElectionEngine.TieException tie){error.setText(Explanation.error("TIE",greek));error.setVisibility(View.VISIBLE);String[] labels=tie.parties.stream().map(this::partyName).toArray(String[]::new);new AlertDialog.Builder(this).setTitle(t("Tie: declare lottery outcome","Ισοπαλία: δήλωση κλήρωσης")).setItems(labels,(d,i)->{tieOrder.add(tie.parties.get(i));calculate();}).setNegativeButton(t("Cancel","Ακύρωση"),null).show();}catch(IllegalArgumentException e){feedback("error");error.setText(Explanation.error(e instanceof NumberFormatException?"CONFIG":e.getMessage(),greek));error.setVisibility(View.VISIBLE);error.announceForAccessibility(error.getText());scroll.post(()->{android.graphics.Rect rect=new android.graphics.Rect();error.getDrawingRect(rect);error.requestRectangleOnScreen(rect,false);});}}
  private void renderResults(){stepButton(body,t("← Previous","← Προηγούμενο"),"previous-step",()->goToStep(4),false);space(body,20);body.addView(text(t("THE SEAT PICTURE","Η ΕΙΚΟΝΑ ΤΩΝ ΕΔΡΩΝ"),11,TEAL,true));space(body,6);pageTitle(t("Your results, explained.","Τα αποτελέσματα, με εξήγηση."));description(body,title()+" · "+ruleName());
   LinearLayout summary=card(body,null);TextView total=text(Arrays.stream(result.seats).sum()+t(" seats allocated"," έδρες κατανεμήθηκαν"),28,INK,true);total.setTag("seat-total");summary.addView(total);if(type==3){TextView vacant=text(result.vacantSeats+t(" vacant seats"," κενές έδρες"),16,MUTED,true);vacant.setTag("vacant-seats");summary.addView(vacant);}description(summary,(percent?t("Percentage estimate","Εκτίμηση ποσοστών"):t("Vote-count calculation","Υπολογισμός ψήφων"))+"  ·  "+t("Majority: ","Πλειοψηφία: ")+(seats()/2+1));
+  if(type!=3)description(summary,t("Seat change vs ","Μεταβολή εδρών έναντι ")+dataset.optString(greek?"el":"en")+t(" (election result, not current membership)."," (εκλογικό αποτέλεσμα, όχι σημερινή σύνθεση)."));
   int[] colors=new int[parties.size()];for(int i=0;i<colors.length;i++)colors[i]=Color.parseColor(parties.get(i).optString("color","#64748B"));int[] chartSeats=result.seats,chartColors=colors;if(type==3&&result.vacantSeats>0){chartSeats=Arrays.copyOf(result.seats,result.seats.length+1);chartColors=Arrays.copyOf(colors,colors.length+1);chartSeats[result.seats.length]=result.vacantSeats;chartColors[colors.length]=LINE;}SeatChart chart=new SeatChart(this,chartSeats,chartColors,type==3?t("Seat chamber. Grey seats are vacant. Full accessible results below.","Διάγραμμα εδρών. Οι γκρίζες έδρες είναι κενές. Αναλυτικά αποτελέσματα παρακάτω."):t("Seat chamber. Full accessible results below.","Διάγραμμα εδρών. Αναλυτικά αποτελέσματα παρακάτω."));summary.addView(chart,new LinearLayout.LayoutParams(-1,dp(210)));space(summary,18);
-  for(int i=0;i<parties.size();i++){if(result.seats[i]==0)continue;final int index=i;LinearLayout r=row();TextView label=text(name(parties.get(i)),15,INK,true);r.addView(label,new LinearLayout.LayoutParams(0,-2,1));TextView number=text(""+result.seats[i],24,INK,true);number.setTag("seats-"+parties.get(i).optString("id"));r.addView(number);summary.addView(r);description(summary,result.percentages[i].setScale(2,RoundingMode.HALF_UP).toPlainString()+"%  ·  "+(result.seats[i]>=seats()/2+1?t("Majority","Πλειοψηφία"):t("Seats: ","Έδρες: ")+result.seats[i]));LinearLayout track=row();track.setBackground(bg(BG,3));View bar=new View(this);bar.setBackground(bg(colors[index],3));track.addView(bar,new LinearLayout.LayoutParams(0,dp(5),result.seats[i]));track.addView(new View(this),new LinearLayout.LayoutParams(0,dp(5),Math.max(0,seats()-result.seats[i])));summary.addView(track);space(summary,15);}
+  for(int i=0;i<parties.size();i++){if(result.seats[i]==0&&(type==3||historicalSeats(parties.get(i).optString("id"))==0))continue;final int index=i;LinearLayout r=row();TextView label=text(name(parties.get(i)),15,INK,true);r.addView(label,new LinearLayout.LayoutParams(0,-2,1));TextView number=text(""+result.seats[i],24,INK,true);number.setTag("seats-"+parties.get(i).optString("id"));r.addView(number);summary.addView(r);if(type!=3)seatChange(summary,parties.get(i).optString("id"),result.seats[i]);description(summary,result.percentages[i].setScale(2,RoundingMode.HALF_UP).toPlainString()+"%  ·  "+(result.seats[i]>=seats()/2+1?t("Majority","Πλειοψηφία"):t("Seats: ","Έδρες: ")+result.seats[i]));LinearLayout track=row();track.setBackground(bg(BG,3));View bar=new View(this);bar.setBackground(bg(colors[index],3));track.addView(bar,new LinearLayout.LayoutParams(0,dp(5),result.seats[i]));track.addView(new View(this),new LinearLayout.LayoutParams(0,dp(5),Math.max(0,seats()-result.seats[i])));summary.addView(track);space(summary,15);}
+  // Polls can omit former seat holders; retain those losses instead of hiding them.
+  if(type!=3){Set<String> represented=new HashSet<>();for(JSONObject party:parties)represented.add(historicalPartyId(party.optString("id")));
+   JSONArray previous=dataset.optJSONArray("parties");for(int i=0;i<previous.length();i++){JSONObject party=previous.optJSONObject(i);String id=party.optString("id");if(party.optInt("seats")>0&&!represented.contains(id)){summary.addView(text(name(party),15,INK,true));seatChange(summary,id,0);description(summary,t("Not included in this scenario · 0 seats","Δεν περιλαμβάνεται στο σενάριο · 0 έδρες"));space(summary,12);}}
+  }
   long zero=Arrays.stream(result.seats).filter(x->x==0).count();if(zero>0)description(summary,zero+t(" lists received no seats. Open the allocation explanation for details."," συνδυασμοί χωρίς έδρα. Δείτε λεπτομέρειες στην εξήγηση κατανομής."));
   if(type==0){body.addView(button(t("Simulate Government Coalition","Προσομοίωση κυβερνητικής συνεργασίας"),"government-page",()->openDetail(6),false));space(body,12);}
   body.addView(button(t("How the seats were allocated","Πώς κατανεμήθηκαν οι έδρες"),"explanation-page",()->openDetail(7),false));space(body,12);
   if(activePoll!=null){body.addView(button(t("Poll source & assumptions","Πηγή δημοσκόπησης & παραδοχές"),"poll-source-page",()->openDetail(8),false));space(body,12);}
   body.addView(button(t("Share calculation","Κοινοποίηση υπολογισμού"),"share",()->{StringBuilder s=new StringBuilder(title()+"\n"+ruleName()+"\n");for(int i=0;i<parties.size();i++)s.append(name(parties.get(i))).append(": ").append(result.seats[i]).append("\n");for(ElectionEngine.Step step:result.steps)s.append(Explanation.format(step,greek,step.party<0?"":name(parties.get(step.party)))).append("\n");if(type!=3)s.append(dataset.optString("source"));Intent send=new Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT,s.toString());startActivity(Intent.createChooser(send,t("Share calculation","Κοινοποίηση υπολογισμού")));},false));
+ }
+ // Poll providers use slugs; official snapshots use numeric IDs. Never match by translated name.
+ private String historicalPartyId(String id){
+  switch(id){
+   case "poll-nea-dimokratia":return "2";
+   case "poll-syriza":return "4";
+   case "poll-pasok":return "106";
+   case "poll-kommounistiko":return "3";
+   case "poll-elliniki-lysi":return "108";
+   case "poll-niki":return "131";
+   case "poll-plefsi-eleftherias":return "123";
+   case "poll-spartiates":return "157";
+   case "poll-foni-logikis":return "158";
+   default:return id;
+  }
+ }
+ private int historicalSeats(String id){
+  JSONArray previous=dataset.optJSONArray("parties");String key=historicalPartyId(id);
+  for(int i=0;i<previous.length();i++){JSONObject party=previous.optJSONObject(i);if(key.equals(party.optString("id")))return party.optInt("seats");}
+  return 0; // A newly entered list has no seats in the selected election snapshot.
+ }
+ private void seatChange(LinearLayout parent,String id,int allocated){
+  int delta=allocated-historicalSeats(id);String change=(delta>0?"+":delta<0?"−":"")+Math.abs(delta)+t(" seats"," έδρες");
+  TextView badge=text(change,13,delta>0?TEAL:delta<0?0xFFB4233A:MUTED,true);
+  badge.setTag("seat-change-"+id);badge.setPadding(dp(8),dp(4),dp(8),dp(4));badge.setBackground(bg(delta>0?0xFFDDF3EE:delta<0?0xFFFDE8EC:BG,8));
+  badge.setContentDescription(change+t(" compared with "," σε σύγκριση με ")+dataset.optString(greek?"el":"en"));
+  parent.addView(badge,new LinearLayout.LayoutParams(-2,-2));
  }
  private void openDetail(int page){resultPage=page;pendingScrollY=0;stepDirection=1;animateStep=true;render();save();}
  private void backToSeats(){resultPage=5;pendingScrollY=0;stepDirection=-1;animateStep=true;feedback("back");render();save();}

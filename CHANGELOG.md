@@ -2,6 +2,9 @@
 
 ## 0.4 — in development
 
+- Remove the redundant historical-results action from More.
+- Show color-coded seat changes against the selected election, including parties losing all seats and poll-to-official party matching.
+
 - Remove the numbered step header; retain page titles and Previous/Next navigation.
 - Display national historical percentages with at most two decimals while retaining precise values for editing and seat calculations.
 - Keep R8 optimization, obfuscation and resource shrinking enabled; versionCode 6.

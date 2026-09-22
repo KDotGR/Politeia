@@ -49,7 +49,7 @@ public class AppFlowTest {
  private static void shell(String command){try(ParcelFileDescriptor fd=InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand(command);InputStream in=new ParcelFileDescriptor.AutoCloseInputStream(fd)){byte[] b=new byte[1024];while(in.read(b)!=-1){}}catch(Exception e){throw new RuntimeException(e);}}
  private static org.hamcrest.Matcher<View> tag(String s){return withTagValue(is((Object)s));}
  private void tap(String s){
-  if(java.util.Arrays.asList("save","open","clear","example").contains(s))onView(tag("scenario-menu")).perform(scrollTo(),click());
+  if(java.util.Arrays.asList("save","open","clear").contains(s))onView(tag("scenario-menu")).perform(scrollTo(),click());
   if(java.util.Arrays.asList("sound","language").contains(s))onView(tag("settings")).perform(click());
   if(java.util.Arrays.asList("settings").contains(s))onView(tag(s)).perform(click());else onView(tag(s)).perform(scrollTo(),click());
  }
@@ -58,6 +58,7 @@ public class AppFlowTest {
   android.os.SystemClock.sleep(500);
   Bitmap b=InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();File dir=new File(InstrumentationRegistry.getArguments().getString("additionalTestOutputDir","/sdcard/Android/media/gr.politeia.app/additional_test_output"));dir.mkdirs();try(FileOutputStream out=new FileOutputStream(new File(dir,name+".png"))){assertTrue(b.compress(Bitmap.CompressFormat.PNG,100,out));}}
  private void firstHistoricalSource(){tap("source-election");tap("dataset");onData(anything()).atPosition(0).perform(click());}
+ private void historicalVotes(){tap("next-step");firstHistoricalSource();tap("next-step");tap("next-step");}
  private void votes(){tap("next-step");firstHistoricalSource();tap("next-step");tap("next-step");tap("clear");}
  private void percentageValue(String id){onView(tag("value-"+id)).perform(scrollTo()).check((view,error)->{
   if(error!=null)throw error;
@@ -76,7 +77,7 @@ public class AppFlowTest {
   onView(withContentDescription("Beta %")).perform(scrollTo(),replaceText("35"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
  }
  @Test public void historicalCalculationAndExplanation() throws Exception {
-  shot("01-english-home");votes();tap("example");tap("calculate");
+  shot("01-english-home");historicalVotes();tap("calculate");
   onView(tag("seat-total")).check(matches(withText(containsString("300"))));shot("02-parliament-results");
   onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("158")));
   onView(tag("explanation")).check(doesNotExist());tap("explanation-page");
@@ -85,12 +86,12 @@ public class AppFlowTest {
  @Test public void languageSwitch() throws Exception {
   tap("language");onView(withText("Ελληνικά")).perform(click());shot("04-greek-home");
   onView(tag("next-step")).perform(scrollTo()).check(matches(withText("Επόμενο →")));
-  votes();
-  tap("example");tap("calculate");tap("explanation-page");onView(tag("page-title")).perform(scrollTo()).check(matches(withText("Πώς κατανεμήθηκαν οι έδρες")));shot("05-greek-explanation");
+  historicalVotes();
+  tap("calculate");tap("explanation-page");onView(tag("page-title")).perform(scrollTo()).check(matches(withText("Πώς κατανεμήθηκαν οι έδρες")));shot("05-greek-explanation");
  }
  @Test public void invalidInputShowsError(){votes();tap("clear");tap("calculate");onView(tag("error")).check(matches(isDisplayed()));}
- @Test public void europeanHistoricalResults()throws Exception{tap("type-1");votes();tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("21"))));onView(tag("government-page")).check(doesNotExist());shot("06-european-results");}
- @Test public void athensRunoffHistoricalResults()throws Exception{tap("type-2");tap("next-step");tap("source-election");tap("dataset");onData(hasToString("Athens · 2023")).perform(click());tap("next-step");tap("law");onData(hasToString(containsString("4804/2021"))).perform(click());tap("next-step");tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("43"))));shot("07-athens-results");}
+ @Test public void europeanHistoricalResults()throws Exception{tap("type-1");historicalVotes();tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("21"))));onView(tag("government-page")).check(doesNotExist());shot("06-european-results");}
+ @Test public void athensRunoffHistoricalResults()throws Exception{tap("type-2");tap("next-step");tap("source-election");tap("dataset");onData(hasToString("Athens · 2023")).perform(click());tap("next-step");tap("law");onData(hasToString(containsString("4804/2021"))).perform(click());tap("next-step");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("43"))));shot("07-athens-results");}
  @Test public void customPartyEntryAndBonus()throws Exception{
   tap("type-3");tap("next-step");page("Choose the electoral law");onView(tag("dataset")).check(doesNotExist());onView(tag("custom-0")).perform(scrollTo()).check(matches(isDisplayed()));tap("custom-bonus");tap("next-step");
   addCustomParty("Alpha","100");addCustomParty("Beta","100");
@@ -99,14 +100,14 @@ public class AppFlowTest {
   onView(tag("seat-total")).check(matches(withText(containsString("100"))));shot("08-custom-results");
   tap("explanation-page");onView(tag("explanation")).perform(scrollTo()).check(matches(isDisplayed()));
  }
- @Test public void valuesSurviveRecreation(){votes();tap("example");recreate();tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));}
+ @Test public void valuesSurviveRecreation(){historicalVotes();recreate();tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));}
  @Test public void landscapeLayout()throws Exception{
   activity.getActivity().runOnUiThread(()->activity.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE));InstrumentationRegistry.getInstrumentation().waitForIdleSync();
-  onView(tag("type-0")).perform(scrollTo()).check(matches(isDisplayed()));shot("09-landscape");votes();tap("example");tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));tap("government-page");page("Government coalition simulator");tap("detail-back");onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));
+  onView(tag("type-0")).perform(scrollTo()).check(matches(isDisplayed()));shot("09-landscape");historicalVotes();tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));tap("government-page");page("Government coalition simulator");tap("detail-back");onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));
  }
  @Test public void soundToggleAndSavedScenario(){
   tap("sound");onView(tag("sound")).check(matches(withContentDescription("Sound on"))).perform(click()).check(matches(withContentDescription("Sound off")));onView(withText("Close")).perform(click());
-  votes();tap("example");tap("save");onView(withHint("Scenario name")).perform(replaceText("Regression scenario"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());tap("clear");tap("open");onView(withText("Regression scenario")).perform(click());tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));
+  historicalVotes();tap("save");onView(withHint("Scenario name")).perform(replaceText("Regression scenario"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());onView(withText("Save")).perform(click());tap("clear");tap("open");onView(withText("Regression scenario")).perform(click());tap("calculate");onView(tag("seat-total")).check(matches(withText(containsString("300"))));
  }
  @Test public void dropdownRemainderAndGovernment() {
   votes();tap("clear");tap("add");onView(withText("N.D.")).perform(click());
@@ -146,10 +147,10 @@ public class AppFlowTest {
  }
  @Test public void selectedLawSurvivesDatasetChangeAndRecreation(){
   tap("next-step");firstHistoricalSource();tap("next-step");tap("law");onData(hasToString(containsString("4406/2016"))).perform(click());tap("previous-step");tap("dataset");onView(withText("Parliament · June 2023")).perform(click());tap("next-step");recreate();onView(tag("law")).perform(scrollTo()).check(matches(withText(containsString("4406/2016"))));
-  tap("next-step");tap("example");tap("calculate");onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("129")));
+  tap("next-step");tap("calculate");onView(tag("seats-2")).perform(scrollTo()).check(matches(withText("129")));
  }
  @Test public void coalitionStateAndBackReturnToResults(){
-  votes();tap("example");tap("calculate");tap("government-page");tap("government-2");recreate();onView(tag("government-total")).perform(scrollTo()).check(matches(withText(containsString("158 / 300"))));androidx.test.espresso.Espresso.pressBack();onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));tap("government-page");onView(tag("government-2")).perform(scrollTo()).check(matches(isChecked()));tap("detail-back");tap("explanation-page");androidx.test.espresso.Espresso.pressBack();onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));
+  historicalVotes();tap("calculate");tap("government-page");tap("government-2");recreate();onView(tag("government-total")).perform(scrollTo()).check(matches(withText(containsString("158 / 300"))));androidx.test.espresso.Espresso.pressBack();onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));tap("government-page");onView(tag("government-2")).perform(scrollTo()).check(matches(isChecked()));tap("detail-back");tap("explanation-page");androidx.test.espresso.Espresso.pressBack();onView(tag("seat-total")).perform(scrollTo()).check(matches(isDisplayed()));
  }
  @Test public void settingsControlsHaveVisibleSpacing(){
   tap("settings");onView(tag("sound")).check((view,error)->{if(error!=null)throw error;View language=view.getRootView().findViewWithTag("language");View sources=view.getRootView().findViewWithTag("sources");int[] a=new int[2],b=new int[2],c=new int[2];language.getLocationOnScreen(a);view.getLocationOnScreen(b);sources.getLocationOnScreen(c);int minGap=Math.round(8*view.getResources().getDisplayMetrics().density);assertTrue("Language and sound controls need at least 8dp spacing",b[1]-a[1]-language.getHeight()>=minGap);assertTrue("Sound and sources controls need at least 8dp spacing",c[1]-b[1]-view.getHeight()>=minGap);});onView(withText("Close")).perform(click());
@@ -238,6 +239,24 @@ public class AppFlowTest {
   tap("previous-step");tap("next-step");
   onView(tag("value-2")).perform(scrollTo()).check(matches(withText("30.5")));
   onView(tag("step-label-4")).check(doesNotExist());
+ }
+ @Test public void historicalMenuIsRemovedAndSeatChangesIncludeLostSeats(){
+  tap("type-1");historicalVotes();tap("scenario-menu");
+  onView(tag("example")).check(doesNotExist());onView(withText("Close")).perform(click());
+  tap("calculate");onView(tag("seat-change-2")).perform(scrollTo()).check(matches(withText("0 seats")));
+  tap("previous-step");tap("clear");tap("add");onView(withText("NEA DIMOKRATIA")).perform(click());
+  onView(tag("value-2")).perform(scrollTo(),replaceText("100"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());tap("calculate");
+  onView(tag("seat-change-2")).perform(scrollTo()).check(matches(withText("+14 seats")));
+  onView(tag("seat-change-4")).perform(scrollTo()).check(matches(withText("−4 seats")));
+  tap("language");onView(withText("Ελληνικά")).perform(click());
+  onView(tag("seat-change-4")).perform(scrollTo()).check(matches(withText("−4 έδρες")));
+ }
+ @Test public void europeanPollSeatChangesMatchHistoricalPartyIds(){
+  tap("type-1");tap("next-step");tap("source-poll");tap("polls");onView(withText(containsString("GPO · 2026-09-08"))).perform(click());
+  tap("next-step");tap("next-step");tap("calculate");
+  final int[] seats={0};onView(tag("seats-poll-nea-dimokratia")).perform(scrollTo()).check((v,e)->{if(e!=null)throw e;seats[0]=Integer.parseInt(((android.widget.TextView)v).getText().toString());});
+  int delta=seats[0]-7;String expected=(delta>0?"+":delta<0?"−":"")+Math.abs(delta)+" seats";
+  onView(tag("seat-change-poll-nea-dimokratia")).perform(scrollTo()).check(matches(withText(expected)));
  }
  @Test public void europeanHistoricalSelectionDirectlyLoadsVotes(){
   tap("type-1");tap("next-step");tap("source-election");tap("dataset");onView(withText("European Parliament · 2024")).perform(click());
