@@ -1,0 +1,13 @@
+<resources>
+ <color name="app_background">#101820</color>
+ <color name="app_surface">#1B2733</color>
+ <color name="app_ink">#EDF3F8</color>
+ <color name="app_muted">#B0C0CF</color>
+ <color name="app_accent">#65D9BF</color>
+ <color name="app_line">#3A4B5C</color>
+ <color name="app_button">#283A4B</color>
+ <color name="app_selected">#193F39</color>
+ <color name="app_error">#FF9AA9</color>
+ <color name="app_loss">#492A35</color>
+ <color name="app_on_accent">#102C26</color>
+</resources>

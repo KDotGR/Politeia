@@ -21,7 +21,7 @@ final class ResultsShare {
   // Bound bitmap memory and dimensions for unusually long custom elections; never crop parties.
   double scale=Math.min(1,Math.min(Math.sqrt(8_000_000.0/((double)width*height)),16384.0/Math.max(width,height)));
   Bitmap bitmap=Bitmap.createBitmap(Math.max(1,(int)(width*scale)),Math.max(1,(int)(height*scale)),Bitmap.Config.ARGB_8888);
-  Canvas canvas=new Canvas(bitmap);canvas.drawColor(0xFFF5F7FA);
+  Canvas canvas=new Canvas(bitmap);canvas.drawColor(results.getContext().getColor(R.color.app_background));
   canvas.scale((float)bitmap.getWidth()/width,(float)bitmap.getHeight()/height);results.draw(canvas);
   return bitmap;
  }

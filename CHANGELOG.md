@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5 — in development
+
+- Add Light, Dark and System appearance options in Settings; default to the system theme.
+- Adapt screens, dialogs, inputs, seat-change badges and shared result images to the selected theme.
+- Retain appearance preferences and election scenarios across theme changes; versionCode 7, R8 enabled.
+
 ## 0.4 — in development
 
 - Share a full results image (chart, party totals and seat changes) instead of plain text through the Android share sheet.

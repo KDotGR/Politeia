@@ -12,7 +12,7 @@ Politeia is an Android app for exploring how votes translate into seats in Greek
 4. **Enter votes:** Parliament and European Parliament elections use percentages. Local and custom elections also support vote counts. Add or edit party entries as needed. For custom elections, enter each party's name and number of candidates.
 5. **Calculate seats:** view the seat chart and party totals. Dedicated buttons open the allocation explanation and, when applicable, poll sources and assumptions. Parliament results also offer **Simulate Government Coalition**: select one or more parties to test whether they reach the 151-seat majority target. Each detail page has a back button to return to the results.
 
-Use the previous/next buttons to move between steps. Only the current step is shown. The **More** menu in the Votes step lets you save, open or clear scenarios. Open **Settings** using the gear icon to change language, toggle sounds, view sources and privacy information, or manage optional poll updates.
+Use the previous/next buttons to move between steps. Only the current step is shown. The **More** menu in the Votes step lets you save, open or clear scenarios. Open **Settings** using the gear icon to choose Light, Dark or System appearance (System is the default), change language, toggle sounds, view sources and privacy information, or manage optional poll updates.
 
 ### Percentages, remaining votes and candidate limits
 
@@ -47,7 +47,7 @@ No account is required. Scenarios and preferences are stored on your device. Rea
 4. Επεξεργαστείτε τα ποσοστά. Στις αυτοδιοικητικές και προσαρμοσμένες εκλογές μπορείτε επίσης να εισαγάγετε αριθμό ψήφων. Στις προσαρμοσμένες εκλογές ορίστε και τον αριθμό υποψηφίων κάθε κόμματος.
 5. Υπολογίστε τις έδρες και ανοίξτε, αν θέλετε, την εξήγηση κατανομής, τις πηγές δημοσκοπήσεων ή την προσομοίωση κυβερνητικής συνεργασίας. Στις βουλευτικές εκλογές ο στόχος πλειοψηφίας είναι 151 έδρες.
 
-Για εκλογές με όριο 3%, το ποσοστό που απομένει έως το 100% θεωρείται ότι ανήκει σε λοιπά κόμματα, καθένα κάτω από το όριο. Από το γρανάζι αλλάζετε γλώσσα, ήχους και ενημερώσεις δημοσκοπήσεων. Από το μενού **Άλλα** στο βήμα Ψήφοι αποθηκεύετε και ανοίγετε σενάρια.
+Για εκλογές με όριο 3%, το ποσοστό που απομένει έως το 100% θεωρείται ότι ανήκει σε λοιπά κόμματα, καθένα κάτω από το όριο. Από το γρανάζι επιλέγετε εμφάνιση Φωτεινό, Σκοτεινό ή Σύστημα (προεπιλογή) και αλλάζετε γλώσσα, ήχους και ενημερώσεις δημοσκοπήσεων. Από το μενού **Άλλα** στο βήμα Ψήφοι αποθηκεύετε και ανοίγετε σενάρια.
 
 ## Build from source
 

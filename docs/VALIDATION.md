@@ -99,3 +99,10 @@ The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` 
 - Two focused instrumentation tests passed: Share launches an image/png chooser with a readable content URI, stream attachment and temporary read grant; the exported image includes the full results beyond the viewport. A synthetic 30,000-pixel-tall result verifies bounded image dimensions/memory without cropping.
 - Navigation controls are outside the captured results container. PNG compression runs in a background thread; sharing uses a non-exported FileProvider restricted to the shared-results cache folder and requires no storage permission.
 - R8 release build, embedded mapping verification, credential check and whitespace check passed.
+
+### Version 0.5 — appearance settings
+
+- Five focused emulator checks passed: System default and live device-theme changes, explicit Light/Dark overrides, persisted selection and edited votes across recreation, Greek appearance labels and dark result-image background, and existing full-image sharing/large-image bounds.
+- Fixed an early test-discovered resource-override lifecycle crash by applying explicit uiMode during attachBaseContext. The Greek-label test waits for the language dialog transition before reopening Settings.
+- Visually reviewed the Greek dark Settings screenshot; all three options fit. Checked dark text/background contrast for body text, secondary text, selected controls, loss badges and primary-button labels (all above 4.5:1).
+- Version 0.5 / code 7 release bundle built successfully with R8; embedded mapping verification passed.
