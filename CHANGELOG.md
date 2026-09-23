@@ -2,6 +2,8 @@
 
 ## 0.5 — in development
 
+- Add an independent first-use custom-election guide covering thresholds, optional bonuses, candidate limits, input formats and vacant seats, with Settings replay.
+
 - Add a skippable first-use walkthrough in Greek and English, with Settings replay and progress retained across recreation.
 
 - Add Light, Dark and System appearance options in Settings; default to the system theme.

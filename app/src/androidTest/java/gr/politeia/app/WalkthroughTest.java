@@ -44,6 +44,28 @@ public class WalkthroughTest {
   activity.launchActivity(null);onView(withTagValue(is((Object)"walkthrough-progress"))).check(doesNotExist());
   onView(withTagValue(is((Object)"page-title"))).check(matches(withText("Choose your party list")));
  }
+ @Test public void customGuideHasIndependentFirstUseAndPreservesSetup(){
+  launch(false,false);tap("walkthrough-skip");tap("type-3");
+  onView(withText("Your own election")).check(matches(isDisplayed()));tap("walkthrough-skip");
+  tap("type-0");tap("type-3");onView(withTagValue(is((Object)"walkthrough-progress"))).check(doesNotExist());
+  tap("next-step");onView(withTagValue(is((Object)"custom-0"))).perform(scrollTo(),replaceText("17"),androidx.test.espresso.action.ViewActions.closeSoftKeyboard());
+  tap("settings");onView(withTagValue(is((Object)"custom-walkthrough"))).perform(scrollTo(),click());page("1 / 5");tap("walkthrough-skip");
+  onView(withTagValue(is((Object)"custom-0"))).perform(scrollTo()).check(matches(withText("17")));
+  activity.finishActivity();activity.launchActivity(null);onView(withTagValue(is((Object)"walkthrough-progress"))).check(doesNotExist());
+ }
+ @Test public void customGuideCompletionSurvivesRecreation(){
+  launch(false,false);tap("walkthrough-skip");tap("type-3");tap("walkthrough-next");tap("walkthrough-next");
+  InstrumentationRegistry.getInstrumentation().runOnMainSync(()->activity.getActivity().recreate());
+  page("3 / 5");onView(withText("Parties and candidates")).check(matches(isDisplayed()));
+  tap("walkthrough-next");tap("walkthrough-next");onView(withText("Seat limits and vacancies")).check(matches(isDisplayed()));tap("walkthrough-next");
+  tap("type-0");tap("type-3");onView(withTagValue(is((Object)"walkthrough-progress"))).check(doesNotExist());
+ }
+ @Test public void customGuideUsesGreekAndDarkMode(){
+  launch(true,true);tap("walkthrough-skip");tap("type-3");
+  onView(withText("Οι δικές σας εκλογές")).check(matches(isDisplayed()));
+  onView(withTagValue(is((Object)"walkthrough-progress"))).check((v,e)->{if(e!=null)throw e;assertEquals(Configuration.UI_MODE_NIGHT_YES,v.getResources().getConfiguration().uiMode&Configuration.UI_MODE_NIGHT_MASK);});
+  androidx.test.espresso.Espresso.pressBack();tap("type-0");tap("type-3");onView(withTagValue(is((Object)"walkthrough-progress"))).check(doesNotExist());
+ }
  @Test public void greekDarkWalkthroughSupportsSystemBack(){
   launch(true,true);onView(withText("Καλώς ήρθατε στην Πολιτεία")).check(matches(isDisplayed()));
   onView(withTagValue(is((Object)"walkthrough-progress"))).check((v,e)->{if(e!=null)throw e;assertEquals(Configuration.UI_MODE_NIGHT_YES,v.getResources().getConfiguration().uiMode&Configuration.UI_MODE_NIGHT_MASK);});

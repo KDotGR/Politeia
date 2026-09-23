@@ -112,3 +112,9 @@ The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` 
 - Five focused emulator tests passed: first launch/Skip/replay without changing the election, completion and progress across recreation, Greek dark-mode guide and Android Back dismissal, returning users with an existing draft, and the existing theme/edited-votes preservation regression.
 - Existing flow tests explicitly mark onboarding as seen; dedicated walkthrough tests start with fresh preferences.
 - R8 release bundle and embedded mapping verification passed. The guide uses a scrollable native dialog with Previous/Next, Skip and a final Get started action; it never modifies scenario inputs.
+
+### Version 0.5 — custom-election walkthrough
+
+- Eight focused UI tests passed: all seven general/custom walkthrough tests plus custom-party entry and allocation. Custom coverage checks an independent first-use flag, dismissal persistence, completion and page restoration after recreation, Settings replay preserving an edited seat total, and Greek/dark-mode presentation.
+- The existing walkthrough dialog is reused with separate custom content and dismissal state. No election calculations changed.
+- R8 release build and embedded mapping verification passed.
