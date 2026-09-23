@@ -118,3 +118,11 @@ The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` 
 - Eight focused UI tests passed: all seven general/custom walkthrough tests plus custom-party entry and allocation. Custom coverage checks an independent first-use flag, dismissal persistence, completion and page restoration after recreation, Settings replay preserving an edited seat total, and Greek/dark-mode presentation.
 - The existing walkthrough dialog is reused with separate custom content and dismissal state. No election calculations changed.
 - R8 release build and embedded mapping verification passed.
+
+### Version 0.5 — contextual feature spotlights
+
+- Replaced the overview dialog with bilingual, theme-aware coach marks anchored to real controls. The catalog covers 34 feature groups, including separate add/edit party guidance, native dialogs, local/custom rules, results and Settings.
+- Five contextual UI tests passed: real-control alignment and recreation persistence; source-to-results/coalition flow retaining ND’s 158 seats; Greek dark custom bonuses and candidate editing; completion of every home tip in landscape; and Settings disable/replay. The theme/state regression and both image-sharing tests also passed. A final targeted rerun covered party-edit guidance and the end-to-end allocation flow after the last catalog/hooks changes.
+- Verified that explanations sit above visible highlights. Visually reviewed home and Greek dark candidate screenshots; refined card height and status-bar clearance. Off-screen targets are scrolled into view; temporary translation is restored when the guide closes. Guidance never invokes the target action or changes election values.
+- Progress and dismissal are stored per feature, independently of scenarios. Missing controls are skipped, and guides clean up when their owner window detaches. The former WalkthroughDialog has been removed.
+- R8 release build, embedded mapping verification, tracked-file credential check and whitespace check passed. This is targeted coverage, not an exhaustive manual run through every catalog entry/device size.

@@ -12,7 +12,7 @@ Politeia is an Android app for exploring how votes translate into seats in Greek
 4. **Enter votes:** Parliament and European Parliament elections use percentages. Local and custom elections also support vote counts. Add or edit party entries as needed. For custom elections, enter each party's name and number of candidates.
 5. **Calculate seats:** view the seat chart and party totals. Dedicated buttons open the allocation explanation and, when applicable, poll sources and assumptions. Parliament results also offer **Simulate Government Coalition**: select one or more parties to test whether they reach the 151-seat majority target. Each detail page has a back button to return to the results.
 
-First-time users see a short walkthrough. Skip it at any time, or reopen it from **Settings → Walkthrough**. Selecting Custom elections for the first time opens a separate guide to custom rules, bonuses and candidate limits; reopen it from Settings while using Custom elections.
+On first opening each feature, contextual tips highlight its actual controls and show the explanation above them. Use Next/Back to review the tips or Skip to dismiss that feature’s guide. Settings lets you disable first-use tips or **Replay feature tips**. Tips cover election setup, polls, local/custom rules, vote and party entry, results, coalitions, saved scenarios, sharing and settings, in both languages and themes.
 
 Use the previous/next buttons to move between steps. Only the current step is shown. The **More** menu in the Votes step lets you save, open or clear scenarios. Open **Settings** using the gear icon to choose Light, Dark or System appearance (System is the default), change language, toggle sounds, view sources and privacy information, or manage optional poll updates.
 
@@ -49,7 +49,7 @@ No account is required. Scenarios and preferences are stored on your device. Rea
 4. Επεξεργαστείτε τα ποσοστά. Στις αυτοδιοικητικές και προσαρμοσμένες εκλογές μπορείτε επίσης να εισαγάγετε αριθμό ψήφων. Στις προσαρμοσμένες εκλογές ορίστε και τον αριθμό υποψηφίων κάθε κόμματος.
 5. Υπολογίστε τις έδρες και ανοίξτε, αν θέλετε, την εξήγηση κατανομής, τις πηγές δημοσκοπήσεων ή την προσομοίωση κυβερνητικής συνεργασίας. Στις βουλευτικές εκλογές ο στόχος πλειοψηφίας είναι 151 έδρες.
 
-Στην πρώτη εκκίνηση εμφανίζεται σύντομος οδηγός. Μπορείτε να τον παραλείψετε ή να τον ανοίξετε ξανά από **Ρυθμίσεις → Οδηγός χρήσης**. Η πρώτη επιλογή προσαρμοσμένων εκλογών ανοίγει ξεχωριστό οδηγό για κανόνες, μπόνους και όρια υποψηφίων, διαθέσιμο ξανά στις Ρυθμίσεις όσο χρησιμοποιείτε αυτόν τον τύπο εκλογών.
+Την πρώτη φορά που ανοίγετε κάθε λειτουργία, συμβουλές επισημαίνουν τα πραγματικά στοιχεία και εμφανίζουν εξήγηση από πάνω τους. Προχωρήστε με Επόμενο/Πίσω ή επιλέξτε Παράλειψη. Από τις Ρυθμίσεις απενεργοποιείτε τις αυτόματες συμβουλές ή επιλέγετε **Επανάληψη συμβουλών λειτουργιών**.
 
 Για εκλογές με όριο 3%, το ποσοστό που απομένει έως το 100% θεωρείται ότι ανήκει σε λοιπά κόμματα, καθένα κάτω από το όριο. Από το γρανάζι επιλέγετε εμφάνιση Φωτεινό, Σκοτεινό ή Σύστημα (προεπιλογή) και αλλάζετε γλώσσα, ήχους και ενημερώσεις δημοσκοπήσεων. Από το μενού **Άλλα** στο βήμα Ψήφοι αποθηκεύετε και ανοίγετε σενάρια.
 
