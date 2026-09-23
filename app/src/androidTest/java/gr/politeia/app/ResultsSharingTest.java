@@ -28,7 +28,7 @@ public class ResultsSharingTest {
  @Rule public ActivityTestRule<MainActivity> activity=new ActivityTestRule<MainActivity>(MainActivity.class){
   @Override protected void beforeActivityLaunched(){
    Context c=InstrumentationRegistry.getInstrumentation().getTargetContext();
-   c.getSharedPreferences("gr.politeia.app.MainActivity",0).edit().clear().putBoolean("greek",false).putBoolean("sounds",false).commit();
+   c.getSharedPreferences("gr.politeia.app.MainActivity",0).edit().clear().putBoolean("greek",false).putBoolean("sounds",false).putBoolean("walkthroughSeen",true).commit();
    c.getSharedPreferences("poll-cache",0).edit().clear().putBoolean("auto",false).commit();
   }
  };

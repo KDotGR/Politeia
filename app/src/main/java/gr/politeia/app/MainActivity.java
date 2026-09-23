@@ -39,7 +39,13 @@ public final class MainActivity extends Activity {
  private boolean animateStep; private int stepDirection=1;
  private String t(String en,String el){return greek?el:en;}
  private int dp(float n){return Math.round(n*getResources().getDisplayMetrics().density);}
- @Override public void onCreate(Bundle saved){configureAppearance();super.onCreate(saved);repository=new ElectionRepository(this);polls=new PollRepository(this);PollUpdateService.schedule(this);greek=getPreferences(0).getBoolean("greek",Locale.getDefault().getLanguage().equals("el"));sounds=getPreferences(0).getBoolean("sounds",true);loadDataset("june");restore();render();if(Build.VERSION.SDK_INT>=33)getOnBackInvokedDispatcher().registerOnBackInvokedCallback(android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT,this::navigateBack);}
+ @Override public void onCreate(Bundle saved){configureAppearance();super.onCreate(saved);repository=new ElectionRepository(this);polls=new PollRepository(this);PollUpdateService.schedule(this);greek=getPreferences(0).getBoolean("greek",Locale.getDefault().getLanguage().equals("el"));sounds=getPreferences(0).getBoolean("sounds",true);loadDataset("june");restore();render();if(Build.VERSION.SDK_INT>=33)getOnBackInvokedDispatcher().registerOnBackInvokedCallback(android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT,this::navigateBack);
+  // Existing drafts identify returning users; only a fresh installation opens the guide automatically.
+  if(saved==null&&!getPreferences(0).getBoolean("walkthroughSeen",false)){
+   if(getPreferences(0).contains("draft"))getPreferences(0).edit().putBoolean("walkthroughSeen",true).apply();
+   else WalkthroughDialog.create(greek).show(getFragmentManager(),"walkthrough");
+  }
+ }
  // Override resources before Android initializes the activity theme, including native dialogs.
  @Override protected void attachBaseContext(Context base){
   super.attachBaseContext(base);
@@ -118,6 +124,7 @@ public final class MainActivity extends Activity {
   modes.setOnCheckedChangeListener((group,id)->{RadioButton selected=group.findViewById(id);if(selected==null)return;String mode=selected.getTag().toString().substring(6);if(mode.equals(themeMode))return;getPreferences(0).edit().putString("appearance",mode).apply();save();dialog.dismiss();recreate();});
   appearance.addView(modes);box.addView(appearance);
   Button audio=button("","sound",()->{},false);Runnable label=()->{audio.setText(t("Sounds: ","Ήχοι: ")+(sounds?t("on","ενεργοί"):t("off","ανενεργοί")));audio.setContentDescription(t("Sound "+(sounds?"on":"off"),"Ήχος "+(sounds?"ενεργός":"ανενεργός")));};label.run();audio.setOnClickListener(v->{sounds=!sounds;if(sounds)feedback("success");save();label.run();});box.addView(audio);
+  box.addView(button(t("Walkthrough","Οδηγός χρήσης"),"walkthrough",()->{dialog.dismiss();WalkthroughDialog.create(greek).show(getFragmentManager(),"walkthrough");},false));
   box.addView(button(t("Sources & privacy","Πηγές και απόρρητο"),"sources",()->{dialog.dismiss();sources();},false));
   if(type==0||type==1){box.addView(button(t("Refresh polls now","Ενημέρωση δημοσκοπήσεων"),"refresh-polls",()->{dialog.dismiss();refreshPolls(true);},false));CheckBox auto=new CheckBox(this);auto.setText(t("Refresh polls every 6 hours","Ενημέρωση ανά 6 ώρες"));auto.setTextColor(INK);auto.setChecked(polls.enabled());auto.setOnCheckedChangeListener((v,c)->polls.setEnabled(c));box.addView(auto);}
   spaceControls(box);dialog.show();

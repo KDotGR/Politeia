@@ -2,6 +2,8 @@
 
 ## 0.5 — in development
 
+- Add a skippable first-use walkthrough in Greek and English, with Settings replay and progress retained across recreation.
+
 - Add Light, Dark and System appearance options in Settings; default to the system theme.
 - Adapt screens, dialogs, inputs, seat-change badges and shared result images to the selected theme.
 - Retain appearance preferences and election scenarios across theme changes; versionCode 7, R8 enabled.

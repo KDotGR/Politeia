@@ -106,3 +106,9 @@ The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` 
 - Fixed an early test-discovered resource-override lifecycle crash by applying explicit uiMode during attachBaseContext. The Greek-label test waits for the language dialog transition before reopening Settings.
 - Visually reviewed the Greek dark Settings screenshot; all three options fit. Checked dark text/background contrast for body text, secondary text, selected controls, loss badges and primary-button labels (all above 4.5:1).
 - Version 0.5 / code 7 release bundle built successfully with R8; embedded mapping verification passed.
+
+### Version 0.5 — first-use walkthrough
+
+- Five focused emulator tests passed: first launch/Skip/replay without changing the election, completion and progress across recreation, Greek dark-mode guide and Android Back dismissal, returning users with an existing draft, and the existing theme/edited-votes preservation regression.
+- Existing flow tests explicitly mark onboarding as seen; dedicated walkthrough tests start with fresh preferences.
+- R8 release bundle and embedded mapping verification passed. The guide uses a scrollable native dialog with Previous/Next, Skip and a final Get started action; it never modifies scenario inputs.
