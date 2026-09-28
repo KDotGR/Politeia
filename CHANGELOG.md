@@ -2,7 +2,7 @@
 
 ## 0.5 — in development
 
-- Replace overview walkthroughs with per-feature spotlights on actual controls, explanations above them, remembered progress, Skip/Back/Next, Settings replay and an automatic-tips toggle.
+- Show one skippable introduction only on the first launch after installation. Remove per-feature guides and Settings replay controls; preserve introduction state across app updates.
 
 
 - Add Light, Dark and System appearance options in Settings; default to the system theme.

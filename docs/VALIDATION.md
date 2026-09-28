@@ -126,3 +126,10 @@ The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` 
 - Verified that explanations sit above visible highlights. Visually reviewed home and Greek dark candidate screenshots; refined card height and status-bar clearance. Off-screen targets are scrolled into view; temporary translation is restored when the guide closes. Guidance never invokes the target action or changes election values.
 - Progress and dismissal are stored per feature, independently of scenarios. Missing controls are skipped, and guides clean up when their owner window detaches. The former WalkthroughDialog has been removed.
 - R8 release build, embedded mapping verification, tracked-file credential check and whitespace check passed. This is targeted coverage, not an exhaustive manual run through every catalog entry/device size.
+
+### Version 0.5 — single installation introduction
+
+- Removed all contextual and custom-election guides, including Settings replay/tips controls. Restored one bilingual, theme-aware introduction with Skip, Back and Next.
+- Seven focused emulator tests passed: skip and completion persistence, interrupted introduction followed by a new launch, recreation retaining the current page, fresh app data showing the introduction again, migration from old guide preferences and drafts, and appearance changes preserving edited votes. Fresh app data simulates reinstall state; no physical-device reinstall test was run.
+- The installation marker is written before presenting the introduction and is independent of app versions and future feature guides. Existing users are migrated silently. Android backup remains disabled, so uninstalling clears this local state.
+- R8 release build, embedded mapping verification, tracked-file credential scan and whitespace check passed. No election calculations changed.
