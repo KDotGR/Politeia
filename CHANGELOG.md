@@ -1,13 +1,13 @@
 # Changelog
 
-## 0.5 — in development
+## 1.0.0 — 2026-09-28
 
 - Show one skippable introduction only on the first launch after installation. Remove per-feature guides and Settings replay controls; preserve introduction state across app updates.
 
 
 - Add Light, Dark and System appearance options in Settings; default to the system theme.
 - Adapt screens, dialogs, inputs, seat-change badges and shared result images to the selected theme.
-- Retain appearance preferences and election scenarios across theme changes; versionCode 7, R8 enabled.
+- Retain appearance preferences and election scenarios across theme changes; versionCode 8, R8 enabled.
 
 
 ## 0.4 — in development

@@ -133,3 +133,10 @@ The version 0.2 review candidate targets Android 16/API 36 with `versionCode 4` 
 - Seven focused emulator tests passed: skip and completion persistence, interrupted introduction followed by a new launch, recreation retaining the current page, fresh app data showing the introduction again, migration from old guide preferences and drafts, and appearance changes preserving edited votes. Fresh app data simulates reinstall state; no physical-device reinstall test was run.
 - The installation marker is written before presenting the introduction and is independent of app versions and future feature guides. Existing users are migrated silently. Android backup remains disabled, so uninstalling clears this local state.
 - R8 release build, embedded mapping verification, tracked-file credential scan and whitespace check passed. No election calculations changed.
+
+### Version 1.0.0 — signed release
+
+- Promoted the tested version 0.5 changes to versionName 1.0.0, versionCode 8. No runtime code changed during release preparation.
+- Release bundle build and release lint passed with R8 and resource shrinking enabled. Verified manifest package/version, embedded R8 mapping, JAR signature and matching upload certificate against version 0.4.
+- The seven focused onboarding/theme tests passed immediately before release preparation; they were not repeated for this metadata-only change.
+- Signed bundle and mapping archived under `artifacts/releases/1.0.0-code8/`, outside version control.
