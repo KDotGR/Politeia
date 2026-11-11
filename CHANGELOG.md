@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — party positions
+
+- Add a provisional 2027 parliamentary party-position database with bilingual, sourced summaries and daily checks for new or changed official policy documents.
+
 ## 1.0.0 — 2026-09-28
 
 - Show one skippable introduction only on the first launch after installation. Remove per-feature guides and Settings replay controls; preserve introduction state across app updates.

@@ -4,6 +4,8 @@
 
 Politeia is an Android app for exploring how votes translate into seats in Greek elections. Use historical election data, published polls or your own scenarios, then follow the explanation of the allocation. The interface supports **English and Greek** and requires **Android 8.0 or later**.
 
+The [2027 party-position database](data/party-positions-2027/README.md) tracks published policy proposals and their sources separately from election results and polls.
+
 ## Using the app
 
 1. **Choose an election:** Parliament, European Parliament, local (municipal or regional), or custom.

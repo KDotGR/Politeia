@@ -1,0 +1,719 @@
+{
+  "schema_version": 1,
+  "election": "gr-parliament-2027",
+  "roster_status": "provisional",
+  "roster_sources": [
+    "https://www.hellenicparliament.gr/vouleftes/ana-koinovouleftiki-omada/",
+    "https://epolitical.gr/dimoskopisi-interview-gia-ti-political-kabanaki-gia-akriveia-kai-thesmous-brosta-me-137-monades-i-nd-videophoto/"
+  ],
+  "parties": [
+    {
+      "id": "dimokrates",
+      "name": {
+        "el": "Δημοκράτες – Προοδευτικό Κέντρο",
+        "en": "Democrats – Progressive Centre"
+      },
+      "discovery_urls": [
+        "https://democrats-pc.gr/theseis",
+        "https://democrats-pc.gr/"
+      ],
+      "positions": [
+        {
+          "id": "primary-care",
+          "topic": "health",
+          "kind": "standing_programme",
+          "source_url": "https://democrats-pc.gr/theseis",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Οι θέσεις για την υγεία προβλέπουν ενίσχυση της πρωτοβάθμιας φροντίδας, της αποκατάστασης και της ανακουφιστικής φροντίδας, καθώς και στήριξη του προσωπικού.",
+            "en": "The health platform calls for stronger primary care, rehabilitation and palliative care, and support for healthcare staff."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "282cb09455eeff4e270afe85a9e38bf6bca5c4ed75e92ea4158123c0a82e8a28",
+          "observed_digest": "282cb09455eeff4e270afe85a9e38bf6bca5c4ed75e92ea4158123c0a82e8a28",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://democrats-pc.gr/theseis",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://democrats-pc.gr/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": [
+        {
+          "url": "https://democrats-pc.gr/theseis/ypodomes-chorotaxia",
+          "title": "Υποδομές, Χωροταξία ↗ Υποδομές και χωροταξία με σχέδιο, κανόνες και συμμετοχή Η ανάπτυξη χρειάζεται σαφή χωρικό σχεδιασμό, ασφαλείς υποδομές και συμμετοχή των τοπικών κοινωνιών. Οι προτάσεις μας συνδέ",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://democrats-pc.gr/theseis",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://democrats-pc.gr/theseis/polyepipedi-diakyvernisi",
+          "title": "Πολυεπίπεδη Διακυβέρνηση ↗ Ένα κράτος με σαφείς ευθύνες και τον πολίτη στο επίκεντρο Κάθε αρμοδιότητα στο κατάλληλο επίπεδο, με τους αναγκαίους πόρους και μετρήσιμα αποτελέσματα. Η πρότασή μας για την",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://democrats-pc.gr/theseis",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://democrats-pc.gr/theseis/paideia",
+          "title": "Παιδείας ↗ Δημόσια παιδεία με ίσες ευκαιρίες και στήριξη έως τα 23 Ένα σύγχρονο, δημοκρατικό και συμπεριληπτικό εκπαιδευτικό σύστημα, από την προσχολική αγωγή μέχρι το πανεπιστήμιο. Οι θέσεις μας συνδ",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://democrats-pc.gr/theseis",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://democrats-pc.gr/theseis/naftilia-tourismos",
+          "title": "Ναυτιλίας και Τουρισμού ↗ Η ναυτιλία δεν είναι μόνο τα πλοία — είναι οι άνθρωποί της Προτάσεις για τους ναυτικούς, την ελληνική σημαία, τη ναυτική εκπαίδευση, τα λιμάνια, την ακτοπλοΐα και τον θαλάσσι",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://democrats-pc.gr/theseis",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://democrats-pc.gr/theseis/koinoniko-kratos-stegasi",
+          "title": "Κοινωνικό Κράτος ↗ Κοινωνικό κράτος, αξιοπρεπής εργασία και προσιτή στέγη Προτάσεις για την κοινωνική προστασία, τη στέγαση, την αντιμετώπιση της ενεργειακής κρίσης, την απασχόληση και την κοινωνική α",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://democrats-pc.gr/theseis",
+          "status": "unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "elas",
+      "name": {
+        "el": "Ελληνική Αριστερή Συμπαράταξη",
+        "en": "Greek Left Alliance"
+      },
+      "discovery_urls": [
+        "https://www.myelas.gr/el/nea"
+      ],
+      "positions": [
+        {
+          "id": "green-transition",
+          "topic": "energy-environment",
+          "kind": "founding_declaration",
+          "source_url": "https://www.myelas.gr/el/idrytiki-diakiryxi",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Η ιδρυτική διακήρυξη υποστηρίζει δίκαιη πράσινη μετάβαση και ισότιμη πρόσβαση στα βασικά αγαθά, όπως το νερό και η ενέργεια.",
+            "en": "The founding declaration supports a just green transition and equitable access to essentials such as water and energy."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "5f1a80e8365039914263d68c7fa18f2e3aaaf38a9b62882a19754090ff202cd9",
+          "observed_digest": "5f1a80e8365039914263d68c7fa18f2e3aaaf38a9b62882a19754090ff202cd9",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://www.myelas.gr/el/nea",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": []
+    },
+    {
+      "id": "elliniki-lysi",
+      "name": {
+        "el": "Ελληνική Λύση",
+        "en": "Greek Solution"
+      },
+      "discovery_urls": [
+        "https://elliniki-lisi.gr/programmatikes-theseis-tis-ellinikis-lysis",
+        "https://elliniki-lisi.gr/"
+      ],
+      "positions": [
+        {
+          "id": "vat",
+          "topic": "economy",
+          "kind": "standing_programme",
+          "source_url": "https://elliniki-lisi.gr/ta-12-simeia-tou-programmatos-tis-ellinikis-lisis",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Η σύνοψη του προγράμματος προτείνει ΦΠΑ 10% για τρόφιμα και φάρμακα, 7% για τα νησιά και αρχικό γενικό συντελεστή 20%, με στόχο το 15%.",
+            "en": "The programme summary proposes 10% VAT on food and medicines, 7% for the islands and an initial general rate of 20%, with a target of 15%."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "ebe58bc0325360e4f947d017699b28750411be2b268e06a51c40c2c69035f4a6",
+          "observed_digest": "ebe58bc0325360e4f947d017699b28750411be2b268e06a51c40c2c69035f4a6",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://elliniki-lisi.gr/programmatikes-theseis-tis-ellinikis-lysis",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://elliniki-lisi.gr/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": [
+        {
+          "url": "https://elliniki-lisi.gr/wp-content/uploads/2025/07/3.-ΤΟΜΕΙΣ-ΠΡΟΓΡΑΜΜΑΤΙΚΩΝ-ΠΑΡΕΜΒΑΣΕΩΝ.pdf",
+          "title": "ΤΟΜΕΙΣ ΠΡΟΓΡΑΜΜΑΤΙΚΩΝ ΠΑΡΕΜΒΑΣΕΩΝ (ΒΑΣΙΚΕΣ ΕΝΕΡΓΕΙΕΣ, ΒΑΣΙΚΑ ΟΙΚΟΝΟΜΙΚΑ ΜΕΤΡΑ, ΧΡΗΜΑΤΟΠΙΣΤΩΤΙΚΟΣ ΤΟΜΕΑΣ, ΤΟΥΡΙΣΜΟΣ, ΝΑΥΤΙΛΙΑ)",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://elliniki-lisi.gr/programmatikes-theseis-tis-ellinikis-lysis",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://elliniki-lisi.gr/programmatikes-theseis-tis-ellinikis-lysis",
+          "title": "ΠΡΟΓΡΑΜΜΑΤΙΚΕΣ ΘΕΣΕΙΣ",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://elliniki-lisi.gr/",
+          "status": "unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "elpida",
+      "name": {
+        "el": "Ελπίδα για τη Δημοκρατία",
+        "en": "Hope for Democracy"
+      },
+      "discovery_urls": [
+        "https://elpidagiatidimokratia.com/oi-theseis-mas/",
+        "https://elpidagiatidimokratia.com/nea-anakoinoseis/"
+      ],
+      "positions": [
+        {
+          "id": "preventive-health",
+          "topic": "health",
+          "kind": "standing_programme",
+          "source_url": "https://elpidagiatidimokratia.com/oi-theseis-mas/",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Η θεματική θέση για την υγεία υποστηρίζει ευρεία πρόσβαση και ένα σύστημα που δίνει βάρος στην πρόληψη πριν εμφανιστεί η ασθένεια.",
+            "en": "The health policy calls for broad access to care and a system that emphasises prevention before illness occurs."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "3add85f34d86ddfb50245aa479bde6a78f7dec3223eba8731bd7d11ad390f4c2",
+          "observed_digest": "3add85f34d86ddfb50245aa479bde6a78f7dec3223eba8731bd7d11ad390f4c2",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://elpidagiatidimokratia.com/oi-theseis-mas/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://elpidagiatidimokratia.com/nea-anakoinoseis/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": [
+        {
+          "url": "https://elpidagiatidimokratia.com/i-maria-karystianou-parousiase-to-kyvernitiko-programma-tou-kinimatos-sti-thessaloniki/",
+          "title": "Η Μαρία Καρυστιανού παρουσίασε το κυβερνητικό πρόγραμμα του Κινήματος στη Θεσσαλονίκη",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://elpidagiatidimokratia.com/nea-anakoinoseis/",
+          "status": "unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "foni-logikis",
+      "name": {
+        "el": "Φωνή Λογικής",
+        "en": "Voice of Reason"
+      },
+      "discovery_urls": [
+        "https://fonilogikis.gr/programmatikes-theseis/"
+      ],
+      "positions": [
+        {
+          "id": "flat-tax",
+          "topic": "economy",
+          "kind": "standing_programme",
+          "source_url": "https://fonilogikis.gr/programmatikes-theseis/oikonomia/",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Το οικονομικό πρόγραμμα προτείνει αφορολόγητο όριο 15.000 ευρώ και ενιαίο φορολογικό συντελεστή 15% για εισοδήματα πάνω από το όριο.",
+            "en": "The economic programme proposes a €15,000 tax-free allowance and a flat 15% tax rate for income above that threshold."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "15981bc8cb6f63d72aa83ae1f1004bda550d81fadc6c02fc8eedac0136e9c3e7",
+          "observed_digest": "15981bc8cb6f63d72aa83ae1f1004bda550d81fadc6c02fc8eedac0136e9c3e7",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://fonilogikis.gr/programmatikes-theseis/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": []
+    },
+    {
+      "id": "kke",
+      "name": {
+        "el": "Κομμουνιστικό Κόμμα Ελλάδας",
+        "en": "Communist Party of Greece"
+      },
+      "discovery_urls": [
+        "https://www.kke.gr/arxes-stoxoi/programma/",
+        "https://www.kke.gr/"
+      ],
+      "positions": [
+        {
+          "id": "social-ownership",
+          "topic": "economy",
+          "kind": "standing_programme",
+          "source_url": "https://www.kke.gr/arxes-stoxoi/programma/",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Το πρόγραμμα του 19ου Συνεδρίου προβλέπει κοινωνικοποίηση των μέσων παραγωγής σε κλάδους όπως η βιομηχανία, η ενέργεια, η ύδρευση και οι τηλεπικοινωνίες.",
+            "en": "The programme adopted at the 19th Congress calls for social ownership of the means of production in sectors including industry, energy, water and telecommunications."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "2b41835abb29781822991994d46f4940575ee49baa24859835c0158b2ecba18b",
+          "observed_digest": "2b41835abb29781822991994d46f4940575ee49baa24859835c0158b2ecba18b",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://www.kke.gr/arxes-stoxoi/programma/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://www.kke.gr/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": []
+    },
+    {
+      "id": "mera25",
+      "name": {
+        "el": "ΜέΡΑ25",
+        "en": "MeRA25"
+      },
+      "discovery_urls": [
+        "https://mera25.gr/theseis/",
+        "https://mera25.gr/"
+      ],
+      "positions": [
+        {
+          "id": "dimitra",
+          "topic": "economy",
+          "kind": "standing_programme",
+          "source_url": "https://mera25.gr/theseis/",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Προτείνει το ψηφιακό σύστημα «ΔΗΜΗΤΡΑ» για δημοσιονομικές συναλλαγές, με δωρεάν συναλλαγές με το Δημόσιο και μεταξύ ιδιωτών.",
+            "en": "Proposes DIMITRA, a digital system for fiscal transactions, with free transfers to and from the state and between private parties."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "792297bcb202a82d5ecfdf7fea15f3f65c97c357aefd7898d1831d92f5079e06",
+          "observed_digest": "792297bcb202a82d5ecfdf7fea15f3f65c97c357aefd7898d1831d92f5079e06",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://mera25.gr/theseis/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://mera25.gr/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": [
+        {
+          "url": "https://mera25.gr/manifesto/",
+          "title": "Μανιφέστο – Ιδρυτική Διακήρυξη",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://mera25.gr/",
+          "status": "unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "nd",
+      "name": {
+        "el": "Νέα Δημοκρατία",
+        "en": "New Democracy"
+      },
+      "discovery_urls": [
+        "https://nd.gr/grafeio-typou/",
+        "https://www.primeminister.gr/"
+      ],
+      "positions": [
+        {
+          "id": "spiti-mou-iii",
+          "topic": "housing",
+          "kind": "statement",
+          "source_url": "https://www.primeminister.gr/2026/09/06/39186",
+          "published_on": "2026-09-06",
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Στη ΔΕΘ ο πρωθυπουργός εξήγγειλε νέο πρόγραμμα «Σπίτι μου ΙΙΙ» ύψους 2 δισ. ευρώ για την απόκτηση πρώτης κατοικίας από νέους και νέα ζευγάρια.",
+            "en": "At the Thessaloniki International Fair, the prime minister announced a €2 billion Spiti Mou III programme to help young people and young couples buy a first home."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "9b3d76273d0ab13635a7779c3a5d243079c540657e7b46deb3236b89091d0f4d",
+          "observed_digest": "9b3d76273d0ab13635a7779c3a5d243079c540657e7b46deb3236b89091d0f4d",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://nd.gr/grafeio-typou/",
+          "status": "source_unavailable",
+          "last_success": null
+        },
+        {
+          "url": "https://www.primeminister.gr/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": []
+    },
+    {
+      "id": "nea-aristera",
+      "name": {
+        "el": "Νέα Αριστερά",
+        "en": "New Left"
+      },
+      "discovery_urls": [
+        "https://neaaristera.gr/programmatiko-synedrio/programmatikes-theseis/",
+        "https://neaaristera.gr/"
+      ],
+      "positions": [
+        {
+          "id": "private-universities",
+          "topic": "education",
+          "kind": "standing_programme",
+          "source_url": "https://neaaristera.gr/wp-content/uploads/2026/02/ΚΕΙΜΕΝΟ_ΘΕΣΕΩΝ_final.pdf",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Το κείμενο θέσεων του 2026 ζητά την αναστολή των αδειών λειτουργίας ιδιωτικών πανεπιστημίων και την κατάργηση του νόμου που τα επιτρέπει.",
+            "en": "The 2026 policy document calls for suspending operating licences for private universities and repealing the law that permits them."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "2f95789212a62c854f88a89fe5915a9dfd9a9057d2b66e1579303d8494907fd6",
+          "observed_digest": "2f95789212a62c854f88a89fe5915a9dfd9a9057d2b66e1579303d8494907fd6",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://neaaristera.gr/programmatiko-synedrio/programmatikes-theseis/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://neaaristera.gr/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": [
+        {
+          "url": "https://neaaristera.gr/category/programmatiko-synedrio/",
+          "title": "Προγραμματικό Συνέδριο",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://neaaristera.gr/programmatiko-synedrio/programmatikes-theseis/",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://neaaristera.gr/anakoinoseis-diloseis/peti-perka/",
+          "title": "Πέτη Πέρκα: Οφείλουμε να δυναμώσουμε τη Νέα Αριστερά, να «γειώσουμε» τις θέσεις μας στην κοινωνία και να συμμετέχουμε ενεργά στα κινήματα",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://neaaristera.gr/programmatiko-synedrio/programmatikes-theseis/",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://neaaristera.gr/anakoinoseis-diloseis/gavriil-sakellaridis-ston-alpha-radio-98-9-anagkaia-i-dynamiki-anasynthesis-stin-aristera-kai-tou-proodeftikou-chorou-programmatikos-dialogos-koini-drasi-kai-giati-ochi-koini-politiki-ekfrasi-st/",
+          "title": "Γαβριήλ Σακελλαρίδης στον Alpha Radio 98.9: Αναγκαία η δυναμική ανασύνθεσης στην Αριστερά και του προοδευτικού χώρου – Προγραμματικός διάλογος, κοινή δράση και, γιατί όχι, κοινή πολιτική έκφραση στις ",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://neaaristera.gr/programmatiko-synedrio/programmatikes-theseis/",
+          "status": "unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "niki",
+      "name": {
+        "el": "ΝΙΚΗ",
+        "en": "NIKI"
+      },
+      "discovery_urls": [
+        "https://nikh.gr/category/nikh/theseis/"
+      ],
+      "positions": [
+        {
+          "id": "nhs-reorganisation",
+          "topic": "health",
+          "kind": "standing_programme",
+          "source_url": "https://nikh.gr/oi-sygchrones-prokliseis-kai-to-orama-m/",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Το πρόγραμμα υγείας της ΝΙΚΗΣ προτείνει ανασυγκρότηση του Εθνικού Συστήματος Υγείας.",
+            "en": "NIKI’s health programme proposes reorganising Greece’s National Health System."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "98b2a532405e71d78f785c913bf806abb3b3146e554c4891d9f3a479031e52a8",
+          "observed_digest": "98b2a532405e71d78f785c913bf806abb3b3146e554c4891d9f3a479031e52a8",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://nikh.gr/category/nikh/theseis/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": [
+        {
+          "url": "https://nikh.gr/theseis-gia-ton-politismo/",
+          "title": "Θέσεις για τον Πολιτισμό",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://nikh.gr/category/nikh/theseis/",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://nikh.gr/theseis-gia-tin-paideia/",
+          "title": "Θέσεις για την Παιδεία",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://nikh.gr/category/nikh/theseis/",
+          "status": "unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "pasok",
+      "name": {
+        "el": "ΠΑΣΟΚ – Κίνημα Αλλαγής",
+        "en": "PASOK – Movement for Change"
+      },
+      "discovery_urls": [
+        "https://pasok.gr/programma-dialogos/",
+        "https://pasok.gr/"
+      ],
+      "positions": [
+        {
+          "id": "genrent",
+          "topic": "housing",
+          "kind": "statement",
+          "source_url": "https://pasok.gr/omilia-nikoy-androylakh-sthn-90h-deth/",
+          "published_on": "2026-09-12",
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Το σχέδιο GenRent προβλέπει 40.000 κοινωνικές κατοικίες μέσω αξιοποίησης δημόσιας περιουσίας και ανακαίνισης υφιστάμενων κτιρίων.",
+            "en": "The GenRent plan proposes 40,000 social homes by using public property and renovating existing buildings."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "4d0693270b9fe64e7bf2ccc9e91538fd14c67cd63b49c8de3b4017143595f668",
+          "observed_digest": "4d0693270b9fe64e7bf2ccc9e91538fd14c67cd63b49c8de3b4017143595f668",
+          "last_source_success": "2026-11-11"
+        },
+        {
+          "id": "debt-settlement",
+          "topic": "economy",
+          "kind": "statement",
+          "source_url": "https://pasok.gr/omilia-nikoy-androylakh-sthn-90h-deth/",
+          "published_on": "2026-09-12",
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Προτείνει υποχρεωτική συμμετοχή των πιστωτών στον εξωδικαστικό μηχανισμό και ρύθμιση 120 δόσεων για οφειλές σε εφορία και ασφαλιστικά ταμεία.",
+            "en": "Proposes mandatory creditor participation in out-of-court settlements and a 120-instalment plan for tax and social insurance debts."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "4d0693270b9fe64e7bf2ccc9e91538fd14c67cd63b49c8de3b4017143595f668",
+          "observed_digest": "4d0693270b9fe64e7bf2ccc9e91538fd14c67cd63b49c8de3b4017143595f668",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://pasok.gr/programma-dialogos/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://pasok.gr/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": []
+    },
+    {
+      "id": "plefsi",
+      "name": {
+        "el": "Πλεύση Ελευθερίας",
+        "en": "Course of Freedom"
+      },
+      "discovery_urls": [
+        "https://plefsieleftherias.gr/programma/",
+        "https://plefsieleftherias.gr/plefsi-eleftherias/protaseis/"
+      ],
+      "positions": [
+        {
+          "id": "salary-and-pension-payments",
+          "topic": "labour",
+          "kind": "statement",
+          "source_url": "https://plefsieleftherias.gr/ξεκίνησε-η-κατάθεση-νομοσχεδίων-από-τ/",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Η Πλεύση Ελευθερίας ανακοίνωσε πρόταση νόμου για επαναφορά 13ου και 14ου μισθού και 13ης και 14ης σύνταξης.",
+            "en": "Course of Freedom announced a bill to restore 13th and 14th salary and pension payments."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "0c2557230557bcab0f42948c6571cb84d3d82d5abcff07886043298e711903e1",
+          "observed_digest": "0c2557230557bcab0f42948c6571cb84d3d82d5abcff07886043298e711903e1",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://plefsieleftherias.gr/programma/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://plefsieleftherias.gr/plefsi-eleftherias/protaseis/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": [
+        {
+          "url": "https://plefsieleftherias.gr/tag/%cf%80%cf%81%cf%8c%ce%b3%cf%81%ce%b1%ce%bc%ce%bc%ce%b1/",
+          "title": "Πρόγραμμα",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://plefsieleftherias.gr/plefsi-eleftherias/protaseis/",
+          "status": "unreviewed"
+        },
+        {
+          "url": "https://plefsieleftherias.gr/programme/",
+          "title": "Πρόγραμμα",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://plefsieleftherias.gr/plefsi-eleftherias/protaseis/",
+          "status": "unreviewed"
+        }
+      ]
+    },
+    {
+      "id": "symmachia-ellinon",
+      "name": {
+        "el": "Συμμαχία Ελλήνων",
+        "en": "Alliance of Greeks"
+      },
+      "discovery_urls": [
+        "https://symmaxia.net/kyvernitiko-programma/",
+        "https://symmaxia.net/"
+      ],
+      "positions": [
+        {
+          "id": "industry-incentives",
+          "topic": "economy",
+          "kind": "standing_programme",
+          "source_url": "https://symmaxia.net/kyvernitiko-programma/",
+          "published_on": null,
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Το κυβερνητικό πρόγραμμα προτείνει φορολογικά κίνητρα, ενεργειακή αυτάρκεια και ενίσχυση εγχώριων επιχειρήσεων για την ανασυγκρότηση της παραγωγής.",
+            "en": "The governing programme proposes tax incentives, energy self-sufficiency and support for domestic businesses to rebuild production."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "8dec5ed17e59ca8080669186b0299a287fed3b67d3bbd8c22c76be50ffe4d011",
+          "observed_digest": "8dec5ed17e59ca8080669186b0299a287fed3b67d3bbd8c22c76be50ffe4d011",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://symmaxia.net/kyvernitiko-programma/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        },
+        {
+          "url": "https://symmaxia.net/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": []
+    },
+    {
+      "id": "syriza",
+      "name": {
+        "el": "ΣΥΡΙΖΑ – Προοδευτική Συμμαχία",
+        "en": "SYRIZA – Progressive Alliance"
+      },
+      "discovery_urls": [
+        "https://syriza.gr/"
+      ],
+      "positions": [
+        {
+          "id": "social-housing",
+          "topic": "housing",
+          "kind": "statement",
+          "source_url": "https://syriza.gr/anakoinosi-tis-eklogikis-epitropis-tou-syriza-proodeftiki-symmachia/",
+          "published_on": "2026-09-04",
+          "reviewed_on": "2026-11-11",
+          "summary": {
+            "el": "Η Εκλογική Επιτροπή υποστηρίζει τη δημιουργία νέου αποθέματος κατοικιών και την κοινωνική κατοικία.",
+            "en": "The party’s electoral committee supports creating new housing stock and providing social housing."
+          },
+          "source_status": "unchanged",
+          "baseline_digest": "e22b70a88113d70b4b3886d1db05b5b95d6c365b8b54f238eb017d730ca963a4",
+          "observed_digest": "e22b70a88113d70b4b3886d1db05b5b95d6c365b8b54f238eb017d730ca963a4",
+          "last_source_success": "2026-11-11"
+        }
+      ],
+      "discovery_checks": [
+        {
+          "url": "https://syriza.gr/",
+          "status": "checked",
+          "last_success": "2026-11-11"
+        }
+      ],
+      "new_documents": [
+        {
+          "url": "https://syriza.gr/%ce%b5%cf%80%ce%af%cf%83%ce%ba%ce%b5%cf%88%ce%b7-%ce%ba%ce%bb%ce%b9%ce%bc%ce%b1%ce%ba%ce%af%ce%bf%cf%85-%cf%84%ce%bf%cf%85-%cf%83%cf%85%cf%81%ce%b9%ce%b6%ce%b1-%cf%80%cf%83-%cf%83%cf%84%ce%bf/",
+          "title": "Επίσκεψη κλιμακίου του ΣΥΡΙΖΑ-ΠΣ στο Νοσοκομείο Χαλκίδας: Περισσότερες κλίνες, ακάλυπτες θέσεις γιατρών και νοσηλευτών",
+          "first_seen": "2026-11-11",
+          "discovered_from": "https://syriza.gr/",
+          "status": "unreviewed"
+        }
+      ]
+    }
+  ],
+  "checked_on": "2026-11-11"
+}
